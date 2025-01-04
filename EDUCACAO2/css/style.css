@@ -1,0 +1,401 @@
+
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+	font-family: 'Roboto', sans-serif;
+	scroll-behavior: smooth;
+}
+.hero {
+  background-image: url(../img/Hero.png);
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: right;
+	color: rgb(0, 0, 0);
+	text-align: center;
+	padding: 100px 15px;
+	animation: fadeIn 2s ease-in-out;
+  width: auto;
+}
+@keyframes fadeIn {
+	from { opacity: 0; }
+	to { opacity: 1; }
+}
+.hero h1 {
+	font-size: 3rem;
+	margin-bottom: 20px;
+}
+.hero p {
+	font-size: 1.25rem;
+}
+.btn {
+	font-weight: 700;
+	border-radius: 50px;
+}
+.products {
+	display: flex;
+	gap: 15px;
+	flex-wrap: wrap;
+	margin-top: 30px;
+}
+.product-card {
+	flex: 1 1 calc(25% - 15px);
+	border: none;
+	border-radius: 15px;
+	box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+	padding: 20px;
+	background-color: #f8f9fa;
+	transition: transform 0.3s ease, box-shadow 0.3s ease;
+	text-align: center;
+}
+.product-card:hover {
+	transform: translateY(-10px);
+	box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
+}
+
+#duepay{
+  background-image: url(../img/Duepay.png);
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: right;
+  height: 100%;
+}
+
+
+
+
+/* Inicio Style footer */
+footer {
+	background-color: #343a40;
+	color: white;
+	text-align: center;
+	padding: 20px 15px;
+	animation: slideInUp 1s ease-in-out;
+}
+@keyframes slideInUp {
+	from { transform: translateY(100%); opacity: 0; }
+	to { transform: translateY(0); opacity: 1; }
+}
+.features {
+	background-color: #f8f9fa;
+	padding: 40px 15px;
+}
+.feature {
+	text-align: center;
+	padding: 20px;
+}
+.feature i {
+	font-size: 2rem;
+	color: #007bff;
+	margin-bottom: 15px;
+}
+.feature h5 {
+	font-weight: bold;
+	margin-top: 10px;
+}
+.feature p {
+	color: #6c757d;
+}
+
+.site-footer
+{
+background-color:#26272b;
+padding:45px 0 20px;
+font-size:15px;
+line-height:24px;
+color:#737373;
+}
+.site-footer hr
+{
+border-top-color:#bbb;
+opacity:0.5
+}
+.site-footer hr.small
+{
+margin:20px 0
+}
+.site-footer h6
+{
+color:#fff;
+font-size:16px;
+text-transform:uppercase;
+margin-top:5px;
+letter-spacing:2px
+}
+.site-footer a
+{
+color:#737373;
+}
+.site-footer a:hover
+{
+color:#3366cc;
+text-decoration:none;
+}
+.footer-links
+{
+padding-left:0;
+list-style:none
+}
+.footer-links li
+{
+display:block
+}
+.footer-links a
+{
+color:#737373
+}
+.footer-links a:active,.footer-links a:focus,.footer-links a:hover
+{
+color:#3366cc;
+text-decoration:none;
+}
+.footer-links.inline li
+{
+display:inline-block
+}
+.site-footer .social-icons
+{
+text-align:right
+}
+.site-footer .social-icons a
+{
+width:40px;
+height:40px;
+line-height:40px;
+margin-left:6px;
+margin-right:0;
+border-radius:100%;
+background-color:#33353d
+}
+.copyright-text
+{
+margin:0
+}
+@media (max-width:991px)
+{
+.site-footer [class^=col-]
+{
+	margin-bottom:30px
+}
+}
+@media (max-width:767px)
+{
+.site-footer
+{
+	padding-bottom:0
+}
+.site-footer .copyright-text,.site-footer .social-icons
+{
+	text-align:center
+}
+}
+.social-icons
+{
+padding-left:0;
+margin-bottom:0;
+list-style:none
+}
+.social-icons li
+{
+display:inline-block;
+margin-bottom:4px
+}
+.social-icons li.title
+{
+margin-right:15px;
+text-transform:uppercase;
+color:#96a2b2;
+font-weight:700;
+font-size:13px
+}
+.social-icons a{
+background-color:#eceeef;
+color:#818a91;
+font-size:16px;
+display:inline-block;
+line-height:44px;
+width:44px;
+height:44px;
+text-align:center;
+margin-right:8px;
+border-radius:100%;
+-webkit-transition:all .2s linear;
+-o-transition:all .2s linear;
+transition:all .2s linear
+}
+.social-icons a:active,.social-icons a:focus,.social-icons a:hover
+{
+color:#fff;
+
+}
+.social-icons.size-sm a
+{
+line-height:34px;
+height:34px;
+width:34px;
+font-size:14px
+}
+.social-icons a.instagram:hover
+{
+background: #d6249f;
+background: radial-gradient(circle at 30% 107%, #fdf497 0%, #fdf497 5%, #fd5949 45%,#d6249f 60%,#285AEB 90%);
+box-shadow: 0px 3px 10px rgba(0,0,0,.25);
+}
+.social-icons a.whatsapp:hover
+{
+background-color:#30bb35
+}
+@media (max-width:767px)
+{
+.social-icons li.title
+{
+	display:block;
+	margin-right:0;
+	font-weight:600
+}
+}
+
+
+
+.form {
+  --input-bg: #FFf;
+ /*  background of input */
+  --padding: 1.5em;
+  --rotate: 80deg;
+ /*  rotation degree of input*/
+  --gap: 2em;
+  /*  gap of items in input */
+  --icon-change-color: #15A986;
+ /*  when rotating changed icon color */
+  --height: 40px;
+ /*  height */
+  width: 200px;
+  padding-inline-end: 1em;
+ /*  change this for padding in the end of input */
+  background: var(--input-bg);
+  position: relative;
+  border-radius: 4px;
+}
+
+.form label {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  height: var(--height);
+}
+
+.form input {
+  width: 100%;
+  padding-inline-start: calc(var(--padding) + var(--gap));
+  outline: none;
+  background: none;
+  border: 0;
+}
+/* style for both icons -- search,close */
+.form svg {
+  /* display: block; */
+  color: #111;
+  transition: 0.3s cubic-bezier(.4,0,.2,1);
+  position: absolute;
+  height: 15px;
+}
+/* search icon */
+.icon {
+  position: absolute;
+  left: var(--padding);
+  transition: 0.3s cubic-bezier(.4,0,.2,1);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+/* arrow-icon*/
+.swap-off {
+  transform: rotate(-80deg);
+  opacity: 0;
+  visibility: hidden;
+}
+/* close button */
+.close-btn {
+  /* removing default bg of button */
+  background: none;
+  border: none;
+  right: calc(var(--padding) - var(--gap));
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #111;
+  padding: 0.1em;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  transition: 0.3s;
+  opacity: 0;
+  transform: scale(0);
+  visibility: hidden;
+}
+
+.form input:focus ~ .icon {
+  transform: rotate(var(--rotate)) scale(1.3);
+}
+
+.form input:focus ~ .icon .swap-off {
+  opacity: 1;
+  transform: rotate(-80deg);
+  visibility: visible;
+  color: var(--icon-change-color);
+}
+
+.form input:focus ~ .icon .swap-on {
+  opacity: 0;
+  visibility: visible;
+}
+
+.form input:valid ~ .icon {
+  transform: scale(1.3) rotate(var(--rotate))
+}
+
+.form input:valid ~ .icon .swap-off {
+  opacity: 1;
+  visibility: visible;
+  color: var(--icon-change-color);
+}
+
+.form input:valid ~ .icon .swap-on {
+  opacity: 0;
+  visibility: visible;
+}
+
+.form input:valid ~ .close-btn {
+  opacity: 1;
+  visibility: visible;
+  transform: scale(1);
+  transition: 0s;
+}
+/* Seção Duepay */
+#duepay {
+  height: 100vh; /* Tamanho total da página */
+  background: url('../img/Duepay.png') no-repeat center center/cover;
+  background-size: contain;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#duepay .card {
+  background: #4b78dd; /* Fundo semi-transparente para os cards */
+  border: none;
+  border-radius: 8px;
+}
+
+#duepay .card h5 {
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+#duepay .card p {
+  margin: 0;
+}
