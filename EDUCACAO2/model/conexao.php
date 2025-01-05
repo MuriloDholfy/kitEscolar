@@ -8,7 +8,7 @@
             $dbsenha = "";
 
         // public static function conexaoBanco_de_Dados(){
-        //     $servidor = "185.173.111.158";
+        //     $servidor = "127.0.0.1:3306";
         //     $dbnome = "u730047416_bdkitescolar";
         //     $usuario = "u730047416_Murilo";
         //     $dbsenha = "T8fHX?U?Q7l^";
