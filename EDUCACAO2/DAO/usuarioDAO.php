@@ -6,7 +6,7 @@
 
         public static function createUser($user){
             //realiza a conexão com banco de dados 
-            $conexao = new Conexao;
+            $conexao = Conexao::conexaoBanco_de_Dados();
             //QUErty do banco de dados sendo preparads para ser executado no banco
             $query = "INSERT INTO tbUsuario(nomeUsuario,emailUsuario,senhaUsuario) values(?,?,?)";
             $stmt = $conexao->prepare(query: $query);
@@ -19,7 +19,7 @@
 
         public static function showById($id){
             //realiza a conexão com banco de dados 
-            $conexao = new Conexao;
+            $conexao = Conexao::conexaoBanco_de_Dados();
             //QUErty do banco de dados sendo preparads para ser executado no banco
             $query = "SELECT * FROM tbUsuario WHERE id = ? ";
             $stmt = $conexao->prepare(query: $query);
@@ -30,7 +30,7 @@
 
         public static function showAll(){
             //realiza a conexão com banco de dados 
-            $conexao = new Conexao;
+            $conexao = Conexao::conexaoBanco_de_Dados();
             //QUErty do banco de dados sendo preparads para ser executado no banco
             $query = "SELECT * FROM tbUsuario";
             $stmt = $conexao->prepare(query: $query);
@@ -41,7 +41,7 @@
 
         public static function putUser($id,$user){
             //realiza a conexão com banco de dados 
-            $conexao = new Conexao;
+            $conexao = Conexao::conexaoBanco_de_Dados();
             //QUErty do banco de dados sendo preparads para ser executado no banco
             $query = "UPDATE tbUsuario SET
              nomeUsuario = ?,
@@ -59,7 +59,7 @@
 
         public static function deleteUser($id){
                  //realiza a conexão com banco de dados 
-                 $conexao = new Conexao;
+                 $conexao = Conexao::conexaoBanco_de_Dados();
                  //QUErty do banco de dados sendo preparads para ser executado no banco
                  $query = "DELETE FROM tbUsuario WHERE id = ? ";
                  $stmt = $conexao->prepare(query: $query);
@@ -72,7 +72,7 @@
 
 
         public static function checkCredentials($email, $senha){
-            $conexao = Conexao::conectar();
+            $conexao = Conexao::conexaoBanco_de_Dados();
             $query = "SELECT * FROM user WHERE emailUser = ? and passwordUser = ?";
             $stmt = $conexao->prepare($query);
             $stmt->bindValue(1, $email);
