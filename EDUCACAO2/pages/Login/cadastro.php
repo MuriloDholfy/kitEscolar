@@ -1,3 +1,12 @@
+<?php
+
+  if(!empty($_POST)){
+    $idUsuario= $userDao['idUsuario'];
+    }else{
+      $idUsuario= '';
+    }
+?>
+
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
@@ -61,26 +70,28 @@
     <section class="cadastro">
         <div class="card">
             <h2 class="text-center mb-4">Cadastro</h2>
-            <form id="registerForm">
+            <form method="post" action="cadastroProcess.php" id="registerForm">
+            <input type="text" name="idUsuario" placeholder="id" value="<?=$idUsuario?>">
+            <input type="text" value="<?=$idUsuario?'ATUALIZAR':'SALVAR'?>" name="acao" >
                 <div class="row">
                     <div class="mb-3 col-6">
                         <label for="name" class="form-label">Nome</label>
-                        <input type="text" class="form-control" id="name" placeholder="Digite seu nome completo" required>
+                        <input type="text" class="form-control" id="name" name="nomeUsuario"  placeholder="Digite seu nome completo" required>
                     </div>
                     <div class="mb-3 col-6">
                         <label for="email" class="form-label">E-mail</label>
-                        <input type="email" class="form-control" id="email" placeholder="Digite seu e-mail" required>
+                        <input type="email" class="form-control" id="email" name="emailUsuario" placeholder="Digite seu e-mail" required>
                     </div>
                    
                 </div>
                 <div class="row">
                     <div class="mb-3 col-6">
                         <label for="password" class="form-label">Senha</label>
-                        <input type="password" class="form-control" id="password" placeholder="Digite sua senha" required>
+                        <input type="password" class="form-control" id="password" name="senhaUsuario" placeholder="Digite sua senha" required>
                     </div>
                     <div class="mb-3 col-6">
                         <label for="confirmPassword" class="form-label">Confirme sua Senha</label>
-                        <input type="password" class="form-control" id="confirmPassword" placeholder="Confirme sua senha" required>
+                        <input type="password" class="form-control" id="confirmPassword" name="csenhaUsuario" placeholder="Confirme sua senha" required>
                     </div>
                 </div>
             <hr>
@@ -135,7 +146,7 @@
         </div>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+     <!-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
     <script>
         document.getElementById("registerForm").addEventListener("submit", function (e) {
             e.preventDefault(); // Impede o envio do formulário
@@ -154,6 +165,11 @@
         document.getElementById("codeForm").addEventListener("submit", function (e) {
             e.preventDefault(); // Impede o envio do formulário do código
         });
-    </script>
+        
+
+
+
+
+    </script> -->
 </body>
 </html>

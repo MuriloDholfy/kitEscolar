@@ -1,0 +1,11 @@
+# Ignorar dependências do Composer
+EDUCACAO2/lib/
+
+
+# Ignorar arquivos de configuração sensíveis
+.env
+
+# Ignorar logs e caches
+*.log
+*.cache
+/storage/logs/

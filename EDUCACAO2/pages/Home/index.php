@@ -1,3 +1,15 @@
+<?php
+     session_start();
+       if(isset($_SESSION["authUsuario"])){
+         $authUsuario = $_SESSION["authUsuario"];
+         include(__DIR__.'');//aqui é a verificação para ver se o usuario esta online
+       }else{
+         include(__DIR__.'');//aqui é a verificação para ver se o usuario esta off
+       }
+   
+   ?>
+
+
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>

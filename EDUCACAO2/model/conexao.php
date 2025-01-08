@@ -3,7 +3,7 @@
 
         public static function conexaoBanco_de_Dados(){
             $servidor = "localhost";
-            $dbnome = "kitEscolar";
+            $dbnome = "kit_escolar";
             $usuario = "root";
             $dbsenha = "";
 
