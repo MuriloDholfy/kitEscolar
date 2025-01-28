@@ -93,16 +93,16 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
                 </div>
                 <div class="modal-body">
-                    <form>
+                    <form method="post" action="esqueceuSenhaProcess.php">
                         <p class="text-start">Por favor, insira o seu e-mail abaixo para receber as instruções de recuperação de senha.</p>
 
                         <div class="mb-3 text-start">
                             <label for="emailInput" class="form-label">E-mail</label>
-                            <input type="email" class="form-control w-100" id="emailInput" placeholder="Digite seu e-mail" required>
+                            <input type="email" class="form-control w-100" id="emailInput" name="emailUsuario" placeholder="Digite seu e-mail" required>
                         </div>
 
                         <div class="mb-3 text-start">
-                            <button type="button" class="btn btn-primary w-100">Enviar Instruções</button>
+                            <button type="submit" class="btn btn-primary w-100">Enviar Instruções</button>
                         </div>
                     </form>
                 </div>

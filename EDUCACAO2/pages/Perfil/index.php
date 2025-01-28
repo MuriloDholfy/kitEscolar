@@ -1,3 +1,25 @@
+<?php
+    if(!isset($_SESSION)) {
+        session_start();
+        $authUsuario = $_SESSION["authUsuario"];
+        
+    }
+    if(!isset($authUsuario['id'])) {
+        header("location: ../Login/index.php");
+    }
+    
+require_once(__DIR__ . '/../../dao/usuarioDao.php');
+$authUsuario = $_SESSION["authUsuario"];
+// var_dump($authUsuario);
+
+$usuarioDAO = UsuarioDAO::showById($authUsuario["id"]);
+if (isset($usuarioDAO[0])) {
+    $usuarioDados = $usuarioDAO[0]; 
+    $imagem_Usuario = $usuarioDados['imagemUsuario'];
+}else{
+    $imagem_Usuario = "";
+}
+   ?>
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -20,11 +42,19 @@
     <section id="perfil" class="container my-5">
         <div class="row">
             <div class="col-md-4 text-center">
-                <img src="https://via.placeholder.com/150" alt="Foto de Perfil" class="img-fluid rounded-circle mb-3">
-                <h2>Nome do Usuário</h2>
-                <p>Email: usuario@dominio.com</p>
+            <!-- Formulário de Edição -->
+            <form method="POST" action="perfilProcess.php" enctype="multipart/form-data" novalidate>
+            <input type="hidden" name="idJogador" id="idJogador" placeholder="id" value="<?= $authUsuario["id"] ?>">
+            <input type="hidden" name="nomeFoto" id="nomeFoto" placeholder="nome foto" value="<?=$imagem_Usuario?>">
+            <input type="hidden" value="<?=$authUsuario["id"]?'ATUALIZAR':'SALVAR'?>" name="acao">
+            <img id="imagemUsuario" src="../../img/Usuario/<?=$imagem_Usuario != "" ? $imagem_Usuario : 'padrao.jpg';?>" width="360" height="360"alt="Foto de Perfil" class="img-fluid rounded-circle mb-3">
+            <input type="file" id="foto" name="fotoUsuario" accept="image/*" class="custom-file-input">
+                
+                
+                <h2><?=$authUsuario['nome'] ?></h2>
+                <p>Email: <?=$authUsuario['email'] ?></p>
                 <p>
-                    <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editarPerfilModal">Editar Perfil</button>
+                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editarPerfilModal">Editar Perfil</button>
                 </p>
             </div>
             <div class="col-md-8">
@@ -35,14 +65,14 @@
                             <td><strong>Saldo DuePlay</strong></td>
                             <td>5000pt</td>
                         </tr>
-                        <tr>
+                        <!-- <tr>
                             <td><strong>Endereço</strong></td>
                             <td>Rua Exemplo, 123, Cidade, Estado</td>
-                        </tr>
-                        <tr>
+                        </tr> -->
+                        <!-- <tr>
                             <td><strong>Telefone</strong></td>
                             <td>(99) 99999-9999</td>
-                        </tr>
+                        </tr> -->
                         <tr>
                             <td><strong>Data de Cadastro</strong></td>
                             <td>01/01/2024</td>
@@ -62,34 +92,47 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
                 </div>
                 <div class="modal-body">
-                    <!-- Formulário de Edição -->
-                    <form>
+                 
+                    <input type="text" name="idUsuario" placeholder="id" value="<?=$authUsuario['id']?>">
+                    <input type="text" value="<?=$authUsuario?'ATUALIZAR':'SALVAR'?>" name="acao" >
                         <div class="mb-3">
                             <label for="nome" class="form-label">Nome</label>
-                            <input type="text" class="form-control" id="nome" value="Nome do Usuário">
+                            <input type="text" name="nomeUsuario" class="form-control" id="nome" value="<?=$authUsuario['nome'] ?>">
                         </div>
                         <div class="mb-3">
                             <label for="email" class="form-label">E-mail</label>
-                            <input type="email" class="form-control" id="email" value="usuario@dominio.com">
+                            <input type="email" name="emailUsuario" class="form-control" id="email" value="<?=$authUsuario['email'] ?>">
                         </div>
                         <div class="mb-3">
+                            <label for="email" class="form-label">Data de Nascimento</label>
+                            <input type="date" name="dataNascUsuario" class="form-control" id="email" value="<?=$authUsuario['email'] ?>">
+                        </div>
+                        <!-- <div class="mb-3">
                             <label for="telefone" class="form-label">Telefone</label>
-                            <input type="text" class="form-control" id="telefone" value="(99) 99999-9999">
-                        </div>
-                        <div class="mb-3">
+                            <input type="text" name="telefoneUsuario" class="form-control" id="telefone" value="<?=$authUsuario['telefone'] ?>">
+                        </div> -->
+                        <!-- <div class="mb-3">
                             <label for="endereco" class="form-label">Endereço</label>
-                            <input type="text" class="form-control" id="endereco" value="Rua Exemplo, 123, Cidade, Estado">
+                            <input type="text"  name="telefoneUsuario" class="form-control" id="endereco" value="<?=$authUsuario['nome'] ?>">
+                        </div> -->
+                        <div class="mb-3">
+                            <label for="senha" class="form-label">Senha Atual</label>
+                            <input type="password"  name="senhaAtual" class="form-control" id="senha" placeholder="">
                         </div>
                         <div class="mb-3">
-                            <label for="senha" class="form-label">Nova Senha</label>
-                            <input type="password" class="form-control" id="senha" placeholder="Nova senha (opcional)">
+                            <label for="senha"  class="form-label">Nova Senha</label>
+                            <input type="password" name="novaSenhaUsuario" class="form-control" id="senha" placeholder="Nova senha (opcional)">
                         </div>
-                    </form>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                    <button type="button" class="btn btn-primary">Salvar Alterações</button>
-                </div>
+                        <div class="mb-3">
+                            <label for="senha" name="telefoneUsuario" class="form-label">Nova Senha</label>
+                            <input type="password" name="cNovaSenhaUsuario"class="form-control" id="senha" placeholder="Confirme sua nova senha ">
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                        <button type="submit" class="btn btn-primary">Salvar Alterações</button>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
@@ -99,6 +142,34 @@
 
     <!-- Bootstrap JS -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+    <script>
+    // Selecione o input de arquivo, a tag img e o campo nomeFoto
+    const inputFoto = document.getElementById('foto');
+    const imgUsuario = document.getElementById('imagemUsuario');
+    const nomeFoto = document.getElementById('nomeFoto'); // Campo de nome da imagem
+
+    // Adicione um evento de mudança ao input de arquivo
+    inputFoto.addEventListener('change', function(event) {
+        const file = event.target.files[0]; // Obtenha o arquivo selecionado
+
+        if (file) {
+            const reader = new FileReader();
+
+            // Quando a leitura do arquivo for concluída
+            reader.onload = function(e) {
+                imgUsuario.src = e.target.result; // Altere o src da imagem para o caminho local do arquivo
+            };
+
+            // Leia o arquivo como URL de dados
+            reader.readAsDataURL(file);
+
+            // Atualize o campo nomeFoto com o nome do arquivo
+            nomeFoto.value = file.name; // Defina o valor do campo nomeFoto com o nome do arquivo
+        }
+    });
+</script>
+
+
 
 </body>
 </html>

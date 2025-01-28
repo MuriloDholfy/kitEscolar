@@ -40,7 +40,19 @@
             $stmt = $conexao->prepare(query: $query);
             //valores sendo vinculados aos parametros nas cosnsultas 
             $stmt ->bindValue(1,$id);
-            return $stmt -> execute();
+            $stmt -> execute();
+            return $stmt->fetchAll();
+        }   
+        public static function getUserByEmail($emailUsuario){
+            //realiza a conexão com banco de dados 
+            $conexao = Conexao::conexaoBanco_de_Dados();
+            //QUErty do banco de dados sendo preparads para ser executado no banco
+            $query = "SELECT * FROM tbUsuario WHERE emailUsuario = ? ";
+            $stmt = $conexao->prepare(query: $query);
+            //valores sendo vinculados aos parametros nas cosnsultas 
+            $stmt ->bindValue(1,$emailUsuario);
+            $stmt -> execute();
+            return $stmt->fetchAll();
         }   
 
         public static function showAll(){
@@ -51,7 +63,7 @@
             $stmt = $conexao->prepare(query: $query);
             //valores sendo vinculados aos parametros nas cosnsultas 
             $stmt -> execute();
-            return $stmt->fetchAll();
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
         }
 
         public static function putUser($id,$usuario){
@@ -61,14 +73,19 @@
             $query = "UPDATE tbUsuario SET
              nomeUsuario = ?,
              emailUsuario = ?,
-             senhaUsuario = ?
+             senhaUsuario = ?,
+             nascimentoUsuario = ?,
+             imgUsuario = ?
+
              WHERE idUsuario = ?";
             $stmt = $conexao->prepare(query: $query);
             //valores sendo vinculados aos parametros nas cosnsultas 
             $stmt ->bindValue(1,$usuario->getNomeUsuario());
             $stmt ->bindValue(2,$usuario->getEmailUsuario());
             $stmt ->bindValue(3,$usuario->getSenhaUsuario());
-            $stmt ->bindValue(4 ,$id);
+            $stmt ->bindValue(4,$usuario->getDataNascimento());
+            $stmt ->bindValue(5,$usuario->getImagemUsuario());
+            $stmt ->bindValue(6 ,$id);
             return $stmt -> execute();
         }
 
@@ -85,7 +102,7 @@
 
         public static function checkCredentials($email, $senha){
             $conexao = Conexao::conexaoBanco_de_Dados();
-            $query = "SELECT * FROM tbUsuario WHERE emailUsuario = ? and senhaUsuario = ? AND emailVerificadoUsuario=1";
+            $query = "SELECT * FROM tbUsuario WHERE emailUsuario = ? and senhaUsuario = ? AND emailVerificadoUsuario    =1";
             $stmt = $conexao->prepare($query);
             $stmt->bindValue(1, $email);
             $stmt->bindValue(2, $senha);

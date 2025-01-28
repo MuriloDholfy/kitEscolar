@@ -1,8 +1,8 @@
 <?php
 require_once (__DIR__.'/../../dao/usuarioDao.php');
 
+var_dump($_POST);
 $usuario = usuarioDao::checkCredentials($_POST['emailUsuario'], $_POST['senhaUsuario']);
-
 
 
 if($usuario){
@@ -11,14 +11,15 @@ if($usuario){
         'nome' => $usuario['nomeUsuario'],
         'email' => $usuario['emailUsuario'],
         'senha' => $usuario['senhaUsuario'],
+        'img' => $usuario['imgUsuario']
 
     ];
         session_start();
         $_SESSION["authUsuario"] = $authUsuario;
-        header("Location: ../Home/index.php");
+        header("Location: ../home/index.php");
 
 }else{
-        header("Location: index.php");  
+        header("Location: login.php=error");  
 
 }
 

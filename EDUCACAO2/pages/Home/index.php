@@ -1,12 +1,24 @@
 <?php
-     session_start();
-       if(isset($_SESSION["authUsuario"])){
-         $authUsuario = $_SESSION["authUsuario"];
-         include(__DIR__.'');//aqui é a verificação para ver se o usuario esta online
-       }else{
-         include(__DIR__.'');//aqui é a verificação para ver se o usuario esta off
-       }
-   
+
+    //    if(isset($_SESSION["authUsuario"])){
+    //      $authUsuario = $_SESSION["authUsuario"];
+    //      include(__DIR__.'');//aqui é a verificação para ver se o usuario esta online
+    //    }else{
+    //      include(__DIR__.'');//aqui é a verificação para ver se o usuario esta off
+    //    }
+       if(!isset($_SESSION)) {
+        session_start();
+        $authUsuario = $_SESSION["authUsuario"];
+        
+    }
+    
+
+    
+    if(!isset($authUsuario['id'])) {
+        header("location: ../Login/index.php");
+    }
+    require_once (__DIR__.'../../../DAO/ProdutoDAO.php'); 
+    $produtos = ProdutoDAO::showAll();
    ?>
 
 
@@ -79,53 +91,37 @@
     </section>
 
     <section id="produtos" class="py-5">
-        <div class="container">
-            <h2 class="text-center mb-4">Nossos Produtos</h2>
-            <div class="products">
-            <div class="product-card">
-                <img src="https://via.placeholder.com/200" alt="Caderno" class="img-fluid mb-3" aria-label="Caderno Espiral">
-                <h5>Caderno Espiral</h5>
-                <p class="text-muted">A partir de R$ 15,00</p>
-                <button class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#modalCompra" 
-                        data-nome="Caderno Espiral" data-descricao="Caderno espiral com 200 folhas." data-preco="15.00">
-                    Comprar
-                </button>
-            </div>
+    <div class="container">
+        <h2 class="text-center mb-4">Nossos Produtos</h2>
+        <div class="products">
+            <?php if (!empty($produtos)) { ?>
+                <?php foreach ($produtos as $produto) { ?>
+                    <div class="product-card">
+                        <img src="../../img/Produto/<?= !empty($produto["imagemProduto"]) ? $produto["imagemProduto"] : 'padrao.png'; ?>" 
+                             alt="<?= htmlspecialchars($produto['nomeProduto'], ENT_QUOTES, 'UTF-8') ?>" 
+                             class="img-fluid mb-3"  style="height:300px;object-fit: cover; border:4px solid #ccc;width:300px ">
+                        <h5><?= htmlspecialchars($produto['nomeProduto'], ENT_QUOTES, 'UTF-8') ?></h5>
+                        <p class="text-muted">A partir de R$ <?= number_format($produto['valorProduto'], 2, ',', '.') ?></p>
+                        <button class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#modalCompra"
+                            data-id="<?= htmlspecialchars($produto['idProduto'], ENT_QUOTES, 'UTF-8') ?>"   
+                            data-nome="<?= htmlspecialchars($produto['nomeProduto'], ENT_QUOTES, 'UTF-8') ?>"
+                            data-descricao="<?= htmlspecialchars($produto['descricaoProduto'] ?? '', ENT_QUOTES, 'UTF-8') ?>"
+                            data-preco="<?= number_format($produto['valorProduto'], 2, '.', '') ?>"
+                            data-imagem="../../img/Produto/<?= !empty($produto['imagemProduto']) ? $produto['imagemProduto'] : 'padrao.png'; ?>">
 
-            <div class="product-card">
-                <img src="https://via.placeholder.com/200" alt="Caderno" class="img-fluid mb-3" aria-label="Caderno Espiral">
-                <h5>Caderno Espiral</h5>
-                <p class="text-muted">A partir de R$ 15,00</p>
-                <button class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#modalCompra" 
-                        data-nome="Caderno Espiral" data-descricao="Caderno espiral com 200 folhas." data-preco="15.00">
-                    Comprar
-                </button>
-            </div>
+                             Comprar
+                         </button>
 
-            <div class="product-card">
-                <img src="https://via.placeholder.com/200" alt="Caderno" class="img-fluid mb-3" aria-label="Caderno Espiral">
-                <h5>Caderno Espiral</h5>
-                <p class="text-muted">A partir de R$ 15,00</p>
-                <button class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#modalCompra" 
-                        data-nome="Caderno Espiral" data-descricao="Caderno espiral com 200 folhas." data-preco="15.00">
-                    Comprar
-                </button>
-            </div>
-
-            <div class="product-card">
-                <img src="https://via.placeholder.com/200" alt="Caderno" class="img-fluid mb-3" aria-label="Caderno Espiral">
-                <h5>Caderno Espiral</h5>
-                <p class="text-muted">A partir de R$ 15,00</p>
-                <button class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#modalCompra" 
-                        data-nome="Caderno Espiral" data-descricao="Caderno espiral com 200 folhas." data-preco="15.00">
-                    Comprar
-                </button>
-            </div>
-
-            </div>
-           
+                    </div>
+                <?php } ?>
+            <?php } else { ?>
+                <p class="text-center text-muted">Nenhum produto disponível no momento.</p>
+            <?php } ?>
         </div>
-    </section>
+    </div>
+</section>
+
+
 
     <section id="sobre" class="py-5 bg-light">
         <div class="container">
@@ -165,30 +161,41 @@
 <div class="modal fade" id="modalCompra" tabindex="-1" aria-labelledby="modalCompraLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="modalCompraLabel">Detalhes do Produto</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body d-flex">
-        <!-- Imagem do Produto -->
-        <div class="me-3">
-          <img id="imagemProduto" src="https://via.placeholder.com/200" alt="Imagem do Produto" class="img-fluid" style="width: 200px; height: 200px;">
+      <form action="comprarProcess.php" method="POST">
+        <div class="modal-header">
+          <h5 class="modal-title" id="modalCompraLabel">Detalhes do Produto</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
-        <!-- Informações do Produto -->
-        <div>
-          <h4 id="nomeProduto">Nome do Produto</h4>
-          <p id="descricaoProduto">Descrição do produto vai aqui.</p>
-          <p id="precoProduto">Preço: R$ 0,00</p>
-          <div class="mb-3">
-            <label for="quantidadeProduto" class="form-label">Quantidade</label>
-            <input type="number" class="form-control" id="quantidadeProduto" value="1" min="1">
+        <div class="modal-body d-flex">
+          <!-- Imagem do Produto -->
+          <div class="me-3">
+            <img id="imagemProduto" class="img-fluid mb-3" style="height:300px; object-fit:cover; border:4px solid #ccc; width:300px;">
           </div>
-          <button type="button" class="btn btn-primary" id="comprarProduto"><i class="fas fa-shopping-cart me-2"></i>Adicionar ao Carrinho</button>
+          <!-- Informações do Produto -->
+          <div>
+            <h4 id="nomeProduto"></h4>
+            <p id="descricaoProduto"></p>
+            <p id="precoProduto"></p>
+            <!-- Campos ocultos para envio -->
+            <input type="text" name="idProduto" id="produtoId">
+            <input type="text" name="nomeProduto" id="produtoNome">
+            <input type="text" name="precoProduto" id="produtoPreco">
+            <input type="text" name="idUsuario" value="<?= $authUsuario['id'] ?>">
+            <div class="mb-3">
+              <label for="quantidadeProduto" class="form-label">Quantidade</label>
+              <input type="number" class="form-control" id="quantidadeProduto" name="quantidadeProduto" value="1" min="1">
+            </div>
+            <button type="submit" class="btn btn-primary">
+              <i class="fas fa-shopping-cart me-2"></i>Adicionar ao Carrinho
+            </button>
+          </div>
         </div>
-      </div>
+      </form>
     </div>
   </div>
 </div>
+
+
 
 
 <!-- Site footer -->
@@ -198,36 +205,32 @@
 
 
 <script>
-  document.addEventListener('DOMContentLoaded', function () {
-    // Captura os botões de "Comprar"
-    const botoesCompra = document.querySelectorAll('.btn.btn-primary.btn-sm');
+    
+    document.addEventListener('DOMContentLoaded', function () {
+    const modalCompra = document.getElementById('modalCompra');
 
-    botoesCompra.forEach(function (botao) {
-      botao.addEventListener('click', function () {
-        // Pega as informações do produto
-        const nome = botao.getAttribute('data-nome');
-        const descricao = botao.getAttribute('data-descricao');
-        const preco = botao.getAttribute('data-preco');
-        const imagem = botao.getAttribute('data-imagem');
+    modalCompra.addEventListener('show.bs.modal', function (event) {
+        const button = event.relatedTarget; // Botão que acionou o modal
 
-        // Preenche o modal com as informações do produto
+        // Pega os dados do botão
+        const nome = button.getAttribute('data-nome') || 'Produto sem nome';
+        const descricao = button.getAttribute('data-descricao') || 'Descrição não disponível.';
+        const preco = button.getAttribute('data-preco') || '0.00';
+        const imagem = button.getAttribute('data-imagem') || '../../img/Produto/padrao.png';
+
+        // Atualiza os elementos do modal
         document.getElementById('nomeProduto').innerText = nome;
         document.getElementById('descricaoProduto').innerText = descricao;
-        document.getElementById('precoProduto').innerText = 'Preço: R$ ' + preco;
+        document.getElementById('precoProduto').innerText = `Preço: R$ ${parseFloat(preco).toFixed(2).replace('.', ',')}`;
         document.getElementById('imagemProduto').src = imagem;
-      });
-    });
 
-    // Quando o botão de comprar for pressionado
-    document.getElementById('comprarProduto').addEventListener('click', function () {
-      const quantidade = document.getElementById('quantidadeProduto').value;
-      const nome = document.getElementById('nomeProduto').innerText;
-      const preco = document.getElementById('precoProduto').innerText.replace('Preço: R$ ', '');
-
-      alert(`Você comprou ${quantidade} unidade(s) de ${nome} por R$ ${preco * quantidade}`);
-      // Aqui você pode adicionar lógica para adicionar ao carrinho ou finalizar a compra
+        // Atualiza os campos ocultos
+        document.getElementById('produtoId').value = button.getAttribute('data-id') || '';
+        document.getElementById('produtoNome').value = nome;
+        document.getElementById('produtoPreco').value = preco;
     });
-  });
+});
+
 </script>
 
 <!-- Bootstrap JS -->

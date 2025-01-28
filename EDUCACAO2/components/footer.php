@@ -10,12 +10,26 @@
             <div class="col-xs-6 col-md-3">
                 <h6>Categorias</h6>
                 <ul class="footer-links">
-                    <li><a href="#produtos">Cadernos</a></li>
-                    <li><a href="#produtos">Mochilas</a></li>
-                    <li><a href="#produtos">Canetas</a></li>
-                    <li><a href="#produtos">Estojos</a></li>
-                    <li><a href="#produtos">Kit Escolar</a></li>
-                    <li><a href="#produtos">Outros</a></li>
+                    <form method="post" action="categoriaProcess.php">
+                        <li>
+                            <button type="submit" name="produto" value="caderno">Cadernos</button>
+                        </li>
+                        <li>
+                            <button type="submit" name="produto" value="mochila">Mochilas</button>
+                        </li>
+                        <li>
+                            <button type="submit" name="produto" value="caneta">Canetas</button>
+                        </li>
+                        <li>
+                            <button type="submit" name="produto" value="estojo">Estojos</button>
+                        </li>
+                        <li>
+                            <button type="submit" name="produto" value="kit_escolar">Kit Escolar</button>
+                        </li>
+                        <li>
+                            <button type="submit" name="produto" value="outros">Outros</button>
+                        </li>
+                    </form>
                 </ul>
             </div>
 

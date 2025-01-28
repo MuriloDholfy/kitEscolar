@@ -1,3 +1,22 @@
+<?php
+require_once(__DIR__.'/../../DAO/produtoDAO.php');
+
+if (!isset($_SESSION)) {
+    session_start();
+}
+$usuarioId = $_SESSION['authUsuario']['id']; 
+$produtosPendentes = ProdutoDAO::showProdutosPendentes($usuarioId);
+
+
+$totalItens = 0;
+$totalPreco = 0;
+
+foreach ($produtosPendentes as $produto) {
+    $totalItens += $produto['quantidade'];
+    $totalPreco += $produto['precoTotal']*$produto['quantidade'];
+}
+?>
+
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -21,20 +40,20 @@
             <h2 class="text-center mb-4">Finalizar Pagamento</h2>
             
             <!-- Imagem do Produto -->
-            <div class="col-md-6">
+            <!-- <div class="col-md-6">
                 <h5>Imagem do Produto</h5>
                 <img src="../../img/produto1.jpg" alt="Imagem do Produto" class="img-fluid">
-            </div>
+            </div> -->
 
             <!-- Detalhes do Pedido -->
             <div class="row mb-4">
                 <div class="col-md-6">
                     <h5>Resumo do Pedido</h5>
                     <ul class="list-unstyled">
-                        <li><strong>Itens:</strong> 3 Itens</li>
-                        <li><strong>Total:</strong> R$ 150,00</li>
+                        <li><strong>Itens:</strong> <?= $totalItens ?></li>
+                        <li><strong>Total:</strong> <?= $totalPreco ?></li>
                         <li><strong>Frete:</strong> R$ 20,00</li>
-                        <li><strong>Total a Pagar:</strong> R$ 170,00</li>
+                        <!-- <li><strong>Total a Pagar:</strong> R$ 170,00</li> -->
                     </ul>
                 </div>
 
