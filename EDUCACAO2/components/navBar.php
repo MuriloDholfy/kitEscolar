@@ -1,3 +1,20 @@
+<?php 
+     if(!isset($_SESSION)) {
+        session_start();
+        $authUsuario = $_SESSION["authUsuario"];
+        
+    }
+    require_once (__DIR__.'../../DAO/comandaProdutoDAO.php'); 
+    if(isset($authUsuario)){
+        $comandaProdutos = ComandaProdutoDAO::showById($authUsuario['id']);
+    }else{
+        $comandaProdutos = "";
+    }
+    var_dump($comandaProdutos);
+
+?>
+
+
 <header class="bg-light py-3 shadow-sm sticky-top">
     <div class="container d-flex justify-content-between align-items-center">
         <!-- Logo -->
@@ -89,7 +106,32 @@
       </div>
       <div class="modal-body">
         <!-- Aqui você pode colocar os itens do carrinho -->
-        <p>Seu carrinho está vazio. Adicione itens!</p>
+        <?php foreach($comandaProdutos as $comanda) { ?>
+            <tr>
+                <td class="text-center"><?=$comanda["idComanda_Produtos"]?></td>
+                <td class="text-center"><?= $comanda['idComanda']  ?></td>
+                <td class="text-center"><?=$comanda['nomeProduto']?></td>
+                <td class="text-center"><?=$comanda['quantidade']?></td>
+                <td class="text-center"><?=$comanda['preco']?></td>
+                <td class="text-center"><?=$comanda['precoTotal']?></td>
+                <td class="text-center">
+                <form action="process.php" method="POST">
+                    <input type="hidden" class="form-control" name="acao" value="SELECTID">
+                    <input type="hidden" class="form-control" name="id" value="<?=$comanda["idComanda_Produtos"]?>">
+                    <button type="submit" class="dropdown-item">
+                    <i class="fas fa-edit fa-lg text-secondary"></i>
+                    </button>
+                </form>
+                </td>
+                <td class="text-center">
+                <a class="dropdown-item" onclick="modalRemover(<?=$comanda['idComanda_Produtos']?>,'idDeletar')">
+                    <i class="fas fa-trash-alt fa-lg text-danger"></i>
+                </a>
+                </td>
+            </tr>
+            <?php } ?>
+
+        
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>

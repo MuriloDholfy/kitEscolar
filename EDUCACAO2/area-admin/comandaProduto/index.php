@@ -12,7 +12,7 @@
     }
     require_once (__DIR__.'../../../DAO/comandaProdutoDAO.php'); 
     $comandaProdutos = ComandaProdutoDAO::showAll();
-    //  var_dump($comandaProdutos);
+    
   ?>
 
 <!DOCTYPE html>
@@ -55,18 +55,18 @@
               <tr>
                 <th class="col-md-1 text-center">idComanda</th>
                 <th class="col-md-1 text-center">idComanda</th>
-                <th class="col-md-1 text-center">idProduto </th>
-                <th class="col-md-2 text-center">quantidade</th>
+                <th class="col-md-3 text-center">Nome Produto </th>
+                <th class="col-md-1 text-center">quantidade</th>
                 <th class="col-md-2 text-center">preco</th>
                 <th class="col-md-2 text-center">preco Total</th>
                 <th class="text-center col-md-1">Alterar</th>
-                <th class="text-center col-md-2">Excluir</th>
+                <th class="text-center col-md-1">Excluir</th>
               </tr>
               <?php foreach($comandaProdutos as $comanda) { ?>
               <tr>
                 <td class="text-center"><?=$comanda["idComanda_Produtos"]?></td>
                 <td class="text-center"><?= $comanda['idComanda']  ?></td>
-                <td class="text-center"><?=$comanda['idProduto']?></td>
+                <td class="text-center"><?=$comanda['nomeProduto']?></td>
                 <td class="text-center"><?=$comanda['quantidade']?></td>
                 <td class="text-center"><?=$comanda['preco']?></td>
                 <td class="text-center"><?=$comanda['precoTotal']?></td>

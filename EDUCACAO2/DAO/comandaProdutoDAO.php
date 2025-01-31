@@ -31,12 +31,25 @@ class ComandaProdutoDAO {
 
     public static function showById($id) {
         $conexao = Conexao::conexaoBanco_de_Dados();
-        $query = "SELECT * FROM tbComandaProduto WHERE idComandaProduto = ?";
+        $query = "SELECT 
+            cp.idComanda_Produtos, 
+            cp.idComanda, 
+            cp.idProduto, 
+            p.nomeProduto, 
+            cp.quantidade, 
+            cp.preco, 
+            cp.precoTotal
+        FROM tbcomandaproduto cp
+        JOIN tbproduto p ON cp.idProduto = p.idProduto
+        WHERE cp.idComanda = ?";  
+        
         $stmt = $conexao->prepare($query);
-        $stmt->bindValue(1, $id);
+        $stmt->bindValue(1, $id, PDO::PARAM_INT); 
         $stmt->execute();
-        return $stmt->fetch(PDO::FETCH_ASSOC);
+        
+        return $stmt->fetchAll(PDO::FETCH_ASSOC); 
     }
+    
 
     public static function showAllByComanda($idComanda) {
         $conexao = Conexao::conexaoBanco_de_Dados();
@@ -48,7 +61,17 @@ class ComandaProdutoDAO {
     }
     public static function showAll() {
         $conexao = Conexao::conexaoBanco_de_Dados();
-        $query = "SELECT * FROM tbComandaProduto";
+        $query = "SELECT 
+    cp.idComanda_Produtos, 
+    cp.idComanda, 
+    cp.idProduto, 
+    p.nomeProduto, 
+    cp.quantidade, 
+    cp.preco, 
+    cp.precoTotal
+FROM tbcomandaproduto cp
+JOIN tbproduto p ON cp.idProduto = p.idProduto;
+";
         $stmt = $conexao->prepare($query);
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_ASSOC);

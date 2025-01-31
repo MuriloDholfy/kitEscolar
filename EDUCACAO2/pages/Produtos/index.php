@@ -14,9 +14,7 @@
     
 
     
-    if(!isset($authUsuario['id'])) {
-        header("location: ../Login/index.php");
-    }
+
     require_once (__DIR__.'../../../DAO/ProdutoDAO.php'); 
     $produtos = ProdutoDAO::showAll();
    ?>

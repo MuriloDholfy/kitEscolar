@@ -12,7 +12,7 @@
     }
     require_once (__DIR__.'../../../DAO/comandaDAO.php'); 
     $comandas = ComandaDAO::showAll();
-     var_dump($comandas);
+    
   ?>
 
 <!DOCTYPE html>
@@ -54,7 +54,7 @@
             <thead>
               <tr>
                 <th class="col-md-1 text-center">idComanda</th>
-                <th class="col-md-1 text-center">idUsuario</th>
+                <th class="col-md-1 text-center">Nome Usuario</th>
                 <th class="col-md-1 text-center">idPagamento </th>
                 <th class="col-md-2 text-center">criado_em</th>
                 <th class="col-md-3 text-center">statusComanda</th>
@@ -64,7 +64,7 @@
               <?php foreach($comandas as $comanda) { ?>
               <tr>
                 <td class="text-center"><?=$comanda["idComanda"]?></td>
-                <td class="text-center"1><?= $comanda['idUsuario']  ?></td>
+                <td class="text-center"1><?= $comanda['nomeUsuario']  ?></td>
                 <td class="text-center"><?=$comanda['idPagamento']?></td>
                 <td class="text-center"><?=$comanda['criado_em']?></td>
                 <td class="text-center"><?=$comanda['statusComanda']?></td>

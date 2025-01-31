@@ -37,7 +37,16 @@ class ComandaDAO {
 
     public static function showAll() {
         $conexao = Conexao::conexaoBanco_de_Dados();
-        $query = "SELECT * FROM tbComanda";
+        $query = "SELECT 
+    c.idComanda, 
+    c.idUsuario, 
+    u.nomeUsuario, 
+    c.idPagamento, 
+    c.criado_em, 
+    c.statusComanda
+FROM tbcomanda c
+JOIN tbusuario u ON c.idUsuario = u.idUsuario;
+";
         $stmt = $conexao->prepare($query);
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
