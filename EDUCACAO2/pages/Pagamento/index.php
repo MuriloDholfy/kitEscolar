@@ -7,14 +7,18 @@ if (!isset($_SESSION)) {
 $usuarioId = $_SESSION['authUsuario']['id']; 
 $produtosPendentes = ProdutoDAO::showProdutosPendentes($usuarioId);
 
-
 $totalItens = 0;
 $totalPreco = 0;
 
 foreach ($produtosPendentes as $produto) {
     $totalItens += $produto['quantidade'];
-    $totalPreco += $produto['precoTotal']*$produto['quantidade'];
+    $totalPreco += $produto['precoTotal'] * $produto['quantidade'];
 }
+
+// Simulação de endereços cadastrados (substitua por uma consulta ao banco de dados)
+$enderecosCadastrados = [
+    ['id' => 1, 'endereco' => 'Rua A, 123 - São Paulo, SP'],
+];
 ?>
 
 <!DOCTYPE html>
@@ -39,21 +43,36 @@ foreach ($produtosPendentes as $produto) {
         <div class="container">
             <h2 class="text-center mb-4">Finalizar Pagamento</h2>
             
-            <!-- Imagem do Produto -->
-            <!-- <div class="col-md-6">
-                <h5>Imagem do Produto</h5>
-                <img src="../../img/produto1.jpg" alt="Imagem do Produto" class="img-fluid">
-            </div> -->
-
-            <!-- Detalhes do Pedido -->
+            <!-- Resumo do Pedido -->
             <div class="row mb-4">
                 <div class="col-md-6">
                     <h5>Resumo do Pedido</h5>
                     <ul class="list-unstyled">
                         <li><strong>Itens:</strong> <?= $totalItens ?></li>
-                        <li><strong>Total:</strong> <?= $totalPreco ?></li>
-                        <li><strong>Frete:</strong> R$ 20,00</li>
-                        <!-- <li><strong>Total a Pagar:</strong> R$ 170,00</li> -->
+                        <li><strong>Total:</strong> R$ <?= number_format($totalPreco, 2, ',', '.') ?></li>
+                        <li>
+                            <strong>Frete:</strong>
+                            <button type="button" class="btn btn-link p-0" data-bs-toggle="dropdown" aria-expanded="false">
+                                Consultar Frete
+                            </button>
+                            <!-- Dropdown de Endereços -->
+                            <ul class="dropdown-menu">
+                                <?php foreach ($enderecosCadastrados as $endereco): ?>
+                                    <li>
+                                        <a class="dropdown-item" href="#" data-endereco="<?= $endereco['endereco'] ?>">
+                                            <?= $endereco['endereco'] ?>
+                                        </a>
+                                    </li>
+                                <?php endforeach; ?>
+                                <li><hr class="dropdown-divider"></li>
+                                <li>
+                                    <a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#addAddressModal">
+                                        <i class="fas fa-plus me-2"></i>Adicionar Endereço
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li><strong>Total a Pagar:</strong> R$ <?= number_format($totalPreco + 20, 2, ',', '.') ?></li>
                     </ul>
                 </div>
 
@@ -70,6 +89,19 @@ foreach ($produtosPendentes as $produto) {
                                 <option value="duepay">DuePay</option>
                             </select>
                         </div>
+                        <div class="mb-3">
+                            <label for="shippingAddress" class="form-label"><strong>Frete</strong></label>
+                            <select class="form-select" id="shippingAddress" required>
+                                <option value="" disabled selected>Selecione um endereço...</option>
+                                <?php foreach ($enderecosCadastrados as $endereco): ?>
+                                    <option value="<?= $endereco['id'] ?>" data-valor="<?= $endereco['valor_frete'] ?>">
+                                        <?= $endereco['endereco'] ?> - R$ <?= number_format($endereco['valor_frete'], 2, ',', '.') ?>
+                                    </option>
+                                <?php endforeach; ?>
+                                <option value="novo">Adicionar novo endereço...</option>
+                            </select>
+                        </div>
+
 
                         <!-- Formulário de Cartão de Crédito -->
                         <div id="creditCardForm" class="payment-method-form">
@@ -113,6 +145,34 @@ foreach ($produtosPendentes as $produto) {
         </div>
     </section>
 
+    <!-- Modal de Adicionar Endereço -->
+    <div class="modal fade" id="addAddressModal" tabindex="-1" aria-labelledby="addAddressModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="addAddressModalLabel">Adicionar Novo Endereço</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+            </div>
+            <div class="modal-body">
+                <form id="newAddressForm">
+                    <div class="mb-3">
+                        <label for="newAddress" class="form-label">Endereço</label>
+                        <input type="text" class="form-control" id="newAddress" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="newFreteValue" class="form-label">Valor do Frete (R$)</label>
+                        <input type="number" class="form-control" id="newFreteValue" step="0.01" required>
+                    </div>
+                    <p id="totalCompra" data-valor="100.00"><strong>Total: R$ 100,00</strong></p>
+
+                    <button type="submit" class="btn btn-primary">Salvar Endereço</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
     <!-- Modal de Confirmação -->
     <div class="modal fade" id="confirmModal" tabindex="-1" aria-labelledby="confirmModalLabel" aria-hidden="true">
         <div class="modal-dialog">
@@ -138,14 +198,14 @@ foreach ($produtosPendentes as $produto) {
     <!-- Bootstrap JS -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
 
-    <!-- Script para controlar o formulário de pagamento -->
+    <!-- Script para controlar o formulário de pagamento e endereços -->
     <script>
+        // Alternar entre formulários de pagamento
         document.getElementById('paymentMethod').addEventListener('change', function() {
             const selectedMethod = this.value;
             const creditCardForm = document.getElementById('creditCardForm');
             const duepayForm = document.getElementById('duepayForm');
 
-            // Exibir o formulário correspondente ao método selecionado
             if (selectedMethod === 'cartao') {
                 creditCardForm.style.display = 'block';
                 duepayForm.style.display = 'none';
@@ -155,13 +215,67 @@ foreach ($produtosPendentes as $produto) {
             }
         });
 
+        // Adicionar novo endereço
+        document.getElementById('addAddressForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            const newAddress = document.getElementById('newAddress').value;
+
+            if (newAddress) {
+                // Aqui você pode adicionar o endereço ao banco de dados ou à lista de endereços
+                alert(`Endereço "${newAddress}" adicionado com sucesso!`);
+                // Fechar o modal
+                bootstrap.Modal.getInstance(document.getElementById('addAddressModal')).hide();
+            }
+        });
+
+        // Confirmar pagamento
         document.getElementById('confirmPayment').addEventListener('click', function() {
-            // Aqui você pode adicionar o código para finalizar o pagamento
             alert('Pagamento concluído com sucesso!');
-            // Fechar o modal após a confirmação
-            var modal = bootstrap.Modal.getInstance(document.getElementById('confirmModal'));
-            modal.hide();
+            bootstrap.Modal.getInstance(document.getElementById('confirmModal')).hide();
         });
     </script>
+
+<script>
+    document.getElementById('shippingAddress').addEventListener('change', function () {
+        let selectedOption = this.options[this.selectedIndex];
+
+        if (this.value === 'novo') {
+            // Abre o modal para adicionar um novo endereço
+            let addAddressModal = new bootstrap.Modal(document.getElementById('addAddressModal'));
+            addAddressModal.show();
+            this.value = ''; // Reseta o select para evitar problemas
+        } else {
+            // Atualiza o valor do frete e o total a pagar
+            let valorFrete = parseFloat(selectedOption.getAttribute('data-valor'));
+            let totalAtual = parseFloat(document.getElementById('totalCompra').getAttribute('data-valor'));
+
+            let novoTotal = totalAtual + valorFrete;
+            document.getElementById('totalCompra').innerText = "Total: R$ " + novoTotal.toFixed(2).replace('.', ',');
+        }
+    });
+
+    // Adiciona um novo endereço à lista ao salvar
+    document.getElementById('newAddressForm').addEventListener('submit', function (event) {
+        event.preventDefault();
+
+        let endereco = document.getElementById('newAddress').value;
+        let valorFrete = parseFloat(document.getElementById('newFreteValue').value);
+
+        if (endereco && valorFrete) {
+            let novoOption = document.createElement("option");
+            novoOption.value = "novo_" + Date.now(); // ID temporário
+            novoOption.text = endereco + " - R$ " + valorFrete.toFixed(2).replace('.', ',');
+            novoOption.setAttribute("data-valor", valorFrete);
+
+            document.getElementById('shippingAddress').insertBefore(novoOption, document.getElementById('shippingAddress').lastChild);
+            
+            // Fecha o modal e reseta o formulário
+            let addAddressModal = bootstrap.Modal.getInstance(document.getElementById('addAddressModal'));
+            addAddressModal.hide();
+            document.getElementById('newAddressForm').reset();
+        }
+    });
+</script>
+
 </body>
 </html>

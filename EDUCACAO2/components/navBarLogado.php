@@ -1,19 +1,19 @@
 <?php 
-     if(!isset($_SESSION)) {
-        session_start();
-        $authUsuario = $_SESSION["authUsuario"];
-        
-    }
-    require_once (__DIR__.'../../DAO/comandaProdutoDAO.php'); 
-    if(isset($authUsuario)){
-        $comandaProdutos = ComandaProdutoDAO::showById($authUsuario['id']);
-    }else{
-        $comandaProdutos = "";
-    }
-    var_dump($comandaProdutos);
+if (!isset($_SESSION)) {
+    session_start();
+    $authUsuario = $_SESSION["authUsuario"] ?? null; // Usando operador null coalescing para evitar erros
+}
 
+require_once (__DIR__.'../../DAO/comandaProdutoDAO.php'); 
+
+if (isset($authUsuario)) {
+    $comandaProdutos = ComandaProdutoDAO::showById($authUsuario['id']);
+} else {
+    $comandaProdutos = "";
+}
+
+var_dump($comandaProdutos);
 ?>
-
 
 <header class="bg-light py-3 shadow-sm sticky-top">
     <div class="container d-flex justify-content-between align-items-center">
@@ -36,22 +36,29 @@
                     </a>
                 </li>
                 <!-- Ícone de carrinho -->
-                  <li class="nav-item"><a href="../Carrinho/" class="nav-link text-dark">
+                <li class="nav-item">
+                    <a href="../Carrinho/" class="nav-link text-dark">
                         <i class="fas fa-shopping-cart"></i>
                     </a>
                 </li>
-                <!-- Ícone de perfil -->
-                <li class="nav-item">
-                    <a href="#" class="nav-link text-dark" id="profile-icon" aria-label="Perfil do usuário">
+                <!-- Ícone de perfil com dropdown -->
+                <li class="nav-item dropdown">
+                    <a href="../pages/Perfil/index.php" class="nav-link text-dark dropdown-toggle" id="profileDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                         <i class="fas fa-user-circle"></i>
                     </a>
+                    <!-- Opções do dropdown -->
+                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="profileDropdown">
+                        <li><a class="dropdown-item" href="../Perfil/">Perfil</a></li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li><a class="dropdown-item" href="#">Sair</a></li>
+                    </ul>
                 </li>
             </ul>
         </nav>
 
         <!-- Barra de pesquisa (oculta inicialmente) -->
         <div id="search-bar" class="container position-absolute" style="display: none; top: 10px; right: 0; padding-top: 70px; width: 300px;">
-            <form class="form"action="../Produtos/totalProdutos.php" style="width: 100%;">
+            <form class="form" action="../Produtos/totalProdutos.php" style="width: 100%;">
                 <label for="search" style="width: 100%;">
                     <input required="" autocomplete="off" placeholder="Pesquise " id="search" type="text" style="width: 100%;">
                     <div class="icon">
@@ -73,35 +80,11 @@
     </div>
 </header>
 
-<!-- Modal Perfil -->
-<div class="modal fade" id="profileModal" tabindex="-1" aria-labelledby="profileModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="profileModalLabel">Perfil do Usuário</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-        <!-- Conteúdo do perfil -->
-        <p>Bem-vindo ao seu perfil. Realize login ou logout!</p>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
-        <a href="../Login/">
-            <button type="button" class="btn btn-primary">Login</button>
-        </a>
-      </div>
-    </div>
-  </div>
-</div>
-
-
 <script>
 document.addEventListener('DOMContentLoaded', () => {
     const searchIcon = document.getElementById('search-icon');
     const searchBar = document.getElementById('search-bar');
     const cartIcon = document.querySelector('.fa-shopping-cart');
-    const profileIcon = document.getElementById('profile-icon');
 
     // Exibe a barra de pesquisa ao clicar no ícone de pesquisa
     searchIcon.addEventListener('click', function (event) {
@@ -123,12 +106,6 @@ document.addEventListener('DOMContentLoaded', () => {
     cartIcon.addEventListener('click', function () {
         const cartModal = new bootstrap.Modal(document.getElementById('cartModal'));
         cartModal.show();
-    });
-
-    // Exibe o modal do perfil ao clicar no ícone de perfil
-    profileIcon.addEventListener('click', function () {
-        const profileModal = new bootstrap.Modal(document.getElementById('profileModal'));
-        profileModal.show();
     });
 });
 </script>

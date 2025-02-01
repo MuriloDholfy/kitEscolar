@@ -27,7 +27,7 @@
             if ($stmt->execute()) {
                 return $conexao->lastInsertId();
             }else{
-                return throw new Exception("Erro ao inserir usuário: " . implode(", ", $stmt->errorInfo()));
+                 throw new Exception("Erro ao inserir usuário: " . implode(", ", $stmt->errorInfo()));
             }
              
         }

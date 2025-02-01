@@ -6,18 +6,18 @@
     //    }else{
     //      include(__DIR__.'');//aqui é a verificação para ver se o usuario esta off
     //    }
-       if(!isset($_SESSION)) {
-        session_start();
-        $authUsuario = $_SESSION["authUsuario"];
-        $produtosViaFooter = $_SESSION['produtos'];
+    //    if(!isset($_SESSION)) {
+    //     session_start();
+    //     $authUsuario = $_SESSION["authUsuario"];
+    //     $produtosViaFooter = $_SESSION['produtos'];
         
-    }
+    // }
     
 
     
-    if(!isset($authUsuario['id'])) {
-        header("location: ../Login/login.php");
-    }
+    // if(!isset($authUsuario['id'])) {
+    //     header("location: ../Login/login.php");
+    // }
  
     $produtos = ProdutoDAO::showAll();  
     $idProduto = "";

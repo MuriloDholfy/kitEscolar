@@ -4,7 +4,7 @@
         <div class="row">
             <div class="col-sm-12 col-md-6">
                 <h6>Sobre a Loja</h6>
-                <p class="text-justify">Nossa loja é especializada em materiais escolares de alta qualidade para garantir que você tenha tudo o que precisa para um excelente ano letivo. Oferecemos uma ampla variedade de produtos, desde cadernos e mochilas até canetas e estojos, tudo com preços acessíveis e um atendimento personalizado.</p>
+                <p class="text-justify mt-5">Nossa loja é especializada em materiais escolares de alta qualidade para garantir que você tenha tudo o que precisa para um excelente ano letivo. Oferecemos uma ampla variedade de produtos, desde cadernos e mochilas até canetas e estojos, tudo com preços acessíveis e um atendimento personalizado.</p>
             </div>
 
             <div class="col-xs-6 col-md-3">

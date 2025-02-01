@@ -18,7 +18,6 @@
 
     <!-- Link para o arquivo CSS personalizado -->
     <link href="../../css/style.css" rel="stylesheet">
-
     <!-- Favicon -->
     <link rel="icon" type="image/svg+xml" href="../../img/Cabeçalho.svg">
 </head>
@@ -26,187 +25,92 @@
     <!-- Site NavBar -->
     <?php include('../../components/navBar.php'); ?>
 
-    <!-- Conteúdo do Site -->
-    <section class="hero">
-        <div class="container text-center">
-            <h1>Bem-vindo à Loja de Material Escolar</h1>
-            <p>Encontre tudo o que você precisa para a volta às aulas.</p>
-            <a href="#produtos" class="btn btn-primary btn-lg">Ver Produtos</a>
-        </div>
-    </section>
-
-    <section class="features py-5">
-        <div class="container">
-            <div class="row text-center">
-                <div class="col-md-3 feature">
-                    <img src="../../img/Whatsapp.png" alt="Logo" class="mb-2" style="height: 40px;">
-                    <h5>Atendimento via WhatsApp</h5>
-                    <p>Entre em contato com um de nossos atendentes.</p>
+    <section class="shopping-cart py-5">
+    <div class="container">
+        <h2 class="text-center mb-4">Carrinho de Compras</h2>
+        <div class="row">
+            <!-- Lista de Itens no Carrinho -->
+            <div class="col-lg-8">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">Produto</th>
+                                        <th scope="col">Quantidade</th>
+                                        <th scope="col">Preço Unitário</th>
+                                        <th scope="col">Total</th>
+                                        <th scope="col">Ações</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <!-- Exemplo de Item no Carrinho -->
+                                    <tr>
+                                        <td>
+                                            <div class="d-flex align-items-center">
+                                                <img src="../../img/produtos/caderno.jpg" alt="Caderno" class="img-thumbnail" style="width: 60px;">
+                                                <div class="ms-3">
+                                                    <h6 class="mb-0">Caderno Universitário</h6>
+                                                    <small class="text-muted">Capa dura, 200 folhas</small>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <input type="number" class="form-control" value="2" min="1" style="width: 70px;">
+                                        </td>
+                                        <td>R$ 15,00</td>
+                                        <td>R$ 30,00</td>
+                                        <td>
+                                            <button class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></button>
+                                        </td>
+                                    </tr>
+                                    <!-- Fim do Exemplo de Item no Carrinho -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
                 </div>
-                <div class="col-md-3 feature">
-                    <i class="fas fa-credit-card"></i>
-                    <h5>Aceitamos APP Duepay</h5>
-                    <p>Pague com o benefício da Prefeitura de SP.</p>
-                </div>
-                <div class="col-md-3 feature">
-                    <i class="fas fa-shipping-fast"></i>
-                    <h5>4 Pontos de distribuição</h5>
-                    <p>.</p>
-                </div>
-                <div class="col-md-3 feature">
-                    <i class="fas fa-shield-alt"></i>
-                    <h5>Loja Credenciada</h5>
-                    <p>Somos credenciados pela Prefeitura de São Paulo.</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section id="produtos" class="py-5">
-        <div class="container">
-            <h2 class="text-center mb-4">Nossos Produtos</h2>
-            <div class="products">
-            <div class="product-card">
-                <img src="https://via.placeholder.com/200" alt="Caderno" class="img-fluid mb-3" aria-label="Caderno Espiral">
-                <h5>Caderno Espiral</h5>
-                <p class="text-muted">A partir de R$ 15,00</p>
-                <button class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#modalCompra" 
-                        data-nome="Caderno Espiral" data-descricao="Caderno espiral com 200 folhas." data-preco="15.00">
-                    Comprar
-                </button>
             </div>
 
-            <div class="product-card">
-                <img src="https://via.placeholder.com/200" alt="Caderno" class="img-fluid mb-3" aria-label="Caderno Espiral">
-                <h5>Caderno Espiral</h5>
-                <p class="text-muted">A partir de R$ 15,00</p>
-                <button class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#modalCompra" 
-                        data-nome="Caderno Espiral" data-descricao="Caderno espiral com 200 folhas." data-preco="15.00">
-                    Comprar
-                </button>
-            </div>
-
-            <div class="product-card">
-                <img src="https://via.placeholder.com/200" alt="Caderno" class="img-fluid mb-3" aria-label="Caderno Espiral">
-                <h5>Caderno Espiral</h5>
-                <p class="text-muted">A partir de R$ 15,00</p>
-                <button class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#modalCompra" 
-                        data-nome="Caderno Espiral" data-descricao="Caderno espiral com 200 folhas." data-preco="15.00">
-                    Comprar
-                </button>
-            </div>
-
-            <div class="product-card">
-                <img src="https://via.placeholder.com/200" alt="Caderno" class="img-fluid mb-3" aria-label="Caderno Espiral">
-                <h5>Caderno Espiral</h5>
-                <p class="text-muted">A partir de R$ 15,00</p>
-                <button class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#modalCompra" 
-                        data-nome="Caderno Espiral" data-descricao="Caderno espiral com 200 folhas." data-preco="15.00">
-                    Comprar
-                </button>
-            </div>
-
-            </div>
-           
-        </div>
-    </section>
-
-    <section id="sobre" class="py-5 bg-light">
-        <div class="container">
-            <h2 class="text-center mb-4">Sobre Nós</h2>
-            <p class="text-center">Somos apaixonados por oferecer os melhores materiais escolares para garantir o sucesso dos estudos.</p>
-        </div>
-    </section>
-
-    <section id="duepay" class="py-5">
-        <div class="container">
-            <h2 class="text-center mb-4">O que é Duepay?</h2>
-            <p class="text-center">Duepay é uma solução inovadora para pagamentos, oferecida pela Prefeitura de São Paulo, permitindo que os beneficiários realizem compras de maneira prática e segura. Aceitamos Duepay em nossa loja para facilitar suas compras de materiais escolares.</p>
-            <div class="row mt-4">
-                <div class="col-md-6">
-                    <h5>Como usar o Duepay?</h5>
-                    <ul>
-                        <li>Baixe o aplicativo Duepay em seu celular.</li>
-                        <li>Cadastre-se e adicione suas informações pessoais.</li>
-                        <li>Selecione nossa loja como local de compra.</li>
-                        <li>Efetue o pagamento diretamente pelo aplicativo.</li>
-                    </ul>
-                </div>
-                <div class="col-md-6 text-center">
-                    <img src="https://via.placeholder.com/400" alt="App Duepay" class="img-fluid">
+            <!-- Resumo do Pedido -->
+            <div class="col-lg-4">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Resumo do Pedido</h5>
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                Subtotal
+                                <span>R$ 30,00</span>
+                            </li>
+                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                Frete
+                                <span>R$ 10,00</span>
+                            </li>
+                            <li class="list-group-item d-flex justify-content-between align-items-center fw-bold">
+                                Total
+                                <span>R$ 40,00</span>
+                            </li>
+                        </ul>
+                        <div class="d-grid gap-2 mt-3">
+                            <button class="btn btn-primary btn-lg">Finalizar Compra</button>
+                            <button class="btn btn-outline-secondary btn-lg">Continuar Comprando</button>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
-    </section>
-
-<!-- Modal de Compra -->
-<div class="modal fade" id="modalCompra" tabindex="-1" aria-labelledby="modalCompraLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="modalCompraLabel">Detalhes do Produto</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body d-flex">
-        <!-- Imagem do Produto -->
-        <div class="me-3">
-          <img id="imagemProduto" src="https://via.placeholder.com/200" alt="Imagem do Produto" class="img-fluid" style="width: 200px; height: 200px;">
-        </div>
-        <!-- Informações do Produto -->
-        <div>
-          <h4 id="nomeProduto">Nome do Produto</h4>
-          <p id="descricaoProduto">Descrição do produto vai aqui.</p>
-          <p id="precoProduto">Preço: R$ 0,00</p>
-          <div class="mb-3">
-            <label for="quantidadeProduto" class="form-label">Quantidade</label>
-            <input type="number" class="form-control" id="quantidadeProduto" value="1" min="1">
-          </div>
-          <button type="button" class="btn btn-primary" id="comprarProduto"><i class="fas fa-shopping-cart me-2"></i>Adicionar ao Carrinho</button>
-        </div>
-      </div>
     </div>
-  </div>
-</div>
+</section>
 
+  
+
+
+
+    
 
 <!-- Site footer -->
 <?php include('../../components/footer.php'); ?>
-
-
-
-
-<script>
-  document.addEventListener('DOMContentLoaded', function () {
-    // Captura os botões de "Comprar"
-    const botoesCompra = document.querySelectorAll('.btn.btn-primary.btn-sm');
-
-    botoesCompra.forEach(function (botao) {
-      botao.addEventListener('click', function () {
-        // Pega as informações do produto
-        const nome = botao.getAttribute('data-nome');
-        const descricao = botao.getAttribute('data-descricao');
-        const preco = botao.getAttribute('data-preco');
-        const imagem = botao.getAttribute('data-imagem');
-
-        // Preenche o modal com as informações do produto
-        document.getElementById('nomeProduto').innerText = nome;
-        document.getElementById('descricaoProduto').innerText = descricao;
-        document.getElementById('precoProduto').innerText = 'Preço: R$ ' + preco;
-        document.getElementById('imagemProduto').src = imagem;
-      });
-    });
-
-    // Quando o botão de comprar for pressionado
-    document.getElementById('comprarProduto').addEventListener('click', function () {
-      const quantidade = document.getElementById('quantidadeProduto').value;
-      const nome = document.getElementById('nomeProduto').innerText;
-      const preco = document.getElementById('precoProduto').innerText.replace('Preço: R$ ', '');
-
-      alert(`Você comprou ${quantidade} unidade(s) de ${nome} por R$ ${preco * quantidade}`);
-      // Aqui você pode adicionar lógica para adicionar ao carrinho ou finalizar a compra
-    });
-  });
-</script>
 
 <!-- Bootstrap JS -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>

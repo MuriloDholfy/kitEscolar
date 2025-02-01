@@ -134,8 +134,21 @@ text-decoration:none;
 }
 .footer-links
 {
+
 padding-left:0;
 list-style:none
+}
+.footer-links button
+{
+background-color: transparent;
+color:#737373;
+border-color: transparent;
+
+}
+.footer-links button:active,.footer-links button:focus,.footer-links button:hover
+{
+color:#3366cc;
+text-decoration:none;
 }
 .footer-links li
 {
@@ -211,9 +224,11 @@ font-size:13px
 }
 .social-icons a{
 background-color:#eceeef;
+justify-content: center;
+align-items: center;
 color:#818a91;
 font-size:16px;
-display:inline-block;
+display:flex;
 line-height:44px;
 width:44px;
 height:44px;

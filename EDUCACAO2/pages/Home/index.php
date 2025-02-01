@@ -2,9 +2,9 @@
 
     //    if(isset($_SESSION["authUsuario"])){
     //      $authUsuario = $_SESSION["authUsuario"];
-    //      include(__DIR__.'');//aqui é a verificação para ver se o usuario esta online
+    //      include(__DIR__.'../../components/navBar.php');//aqui é a verificação para ver se o usuario esta online
     //    }else{
-    //      include(__DIR__.'');//aqui é a verificação para ver se o usuario esta off
+    //      include(__DIR__.'../../components/navBarLogado.php');//aqui é a verificação para ver se o usuario esta off
     //    }
        if(!isset($_SESSION)) {
         session_start();
@@ -44,7 +44,7 @@
 </head>
 <body>
     <!-- Site NavBar -->
-    <?php include('../../components/navBar.php'); ?>
+    <?php include('../../components/navBarLogado.php'); ?>
 
     <!-- Conteúdo do Site -->
     <section class="hero">
