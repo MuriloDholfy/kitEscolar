@@ -71,21 +71,35 @@
             $conexao = Conexao::conexaoBanco_de_Dados();
             //QUErty do banco de dados sendo preparads para ser executado no banco
             $query = "UPDATE tbUsuario SET
+             idLogradouro = ?,
              nomeUsuario = ?,
              emailUsuario = ?,
              senhaUsuario = ?,
              nascimentoUsuario = ?,
-             imgUsuario = ?
-
+             imagemUsuario = ?  
              WHERE idUsuario = ?";
             $stmt = $conexao->prepare(query: $query);
             //valores sendo vinculados aos parametros nas cosnsultas 
-            $stmt ->bindValue(1,$usuario->getNomeUsuario());
-            $stmt ->bindValue(2,$usuario->getEmailUsuario());
-            $stmt ->bindValue(3,$usuario->getSenhaUsuario());
-            $stmt ->bindValue(4,$usuario->getDataNascimento());
-            $stmt ->bindValue(5,$usuario->getImagemUsuario());
-            $stmt ->bindValue(6 ,$id);
+            $stmt ->bindValue(1,$usuario->getIdLogradouro());
+            $stmt ->bindValue(2,$usuario->getNomeUsuario());
+            $stmt ->bindValue(3,$usuario->getEmailUsuario());
+            $stmt ->bindValue(4,$usuario->getSenhaUsuario());
+            $stmt ->bindValue(5,$usuario->getDataNascimento());
+            $stmt ->bindValue(6,$usuario->getImagemUsuario());
+            $stmt ->bindValue(7 ,$id);
+            return $stmt -> execute();
+        }
+        public static function putUserLogradoro($id,$idLogradouro){
+            //realiza a conexão com banco de dados 
+            $conexao = Conexao::conexaoBanco_de_Dados();
+            //QUErty do banco de dados sendo preparads para ser executado no banco
+            $query = "UPDATE tbUsuario SET
+             idLogradouro = ?
+             WHERE idUsuario = ?";
+            $stmt = $conexao->prepare(query: $query);
+            //valores sendo vinculados aos parametros nas cosnsultas 
+            $stmt ->bindValue(1,$idLogradouro);
+            $stmt ->bindValue(2,$id);
             return $stmt -> execute();
         }
 
@@ -140,7 +154,29 @@
             throw new Exception("Erro no método putCheckEmail: " . $e->getMessage());
         }
         }
-
+        public static function showByIdEndereco($id){
+            // Realiza a conexão com o banco de dados
+            $conexao = Conexao::conexaoBanco_de_Dados();
+        
+            // Query do banco de dados com JOIN entre as tabelas tbUsuario e enderecos
+            $query = "
+                SELECT tbUsuario.idUsuario,tbUsuario.idLogradouro, tbLogradouro.cep,tbLogradouro.numero,tbLogradouro.bairro,tbLogradouro.cidade,tbLogradouro.rua,tbLogradouro.estado
+                FROM tbUsuario
+                JOIN tbLogradouro ON tbUsuario.idLogradouro = tbLogradouro.idLogradouro
+                WHERE tbUsuario.idUsuario = ?
+            ";
+            // Preparar a consulta para execução
+            $stmt = $conexao->prepare($query);
+        
+            // Vincular o valor ao parâmetro na consulta
+            $stmt->bindValue(1, $id, PDO::PARAM_INT);
+        
+            // Executar a consulta
+            $stmt->execute();
+        
+            // Retornar os resultados da consulta como array associativo
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        }
     }
 
 ?>

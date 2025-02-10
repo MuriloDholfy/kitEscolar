@@ -88,12 +88,24 @@ class ProdutoDAO {
     }
     public static function showProdutosPendentes($usuarioId) {
         $conexao = Conexao::conexaoBanco_de_Dados();
-        $query = "SELECT p.idProduto, p.nomeProduto, p.descricaoProduto, cp.quantidade, cp.preco, cp.precoTotal
+        $query = "SELECT p.idProduto, p.nomeProduto, p.descricaoProduto, cp.quantidade, cp.preco, cp.precoTotal,p.imagemProduto,c.idComanda,cp.idComanda_Produtos
                   FROM tbcomandaproduto cp
                   JOIN tbproduto p ON cp.idProduto = p.idProduto
                   JOIN tbcomanda c ON cp.idComanda = c.idComanda
                   WHERE c.idUsuario = ? 
                   AND c.statusComanda = 'Em andamento'";
+        $stmt = $conexao->prepare($query);
+        $stmt->bindValue(1, $usuarioId, PDO::PARAM_INT);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+    public static function showAllProdutos($usuarioId) {
+        $conexao = Conexao::conexaoBanco_de_Dados();
+        $query = "SELECT p.idProduto, p.nomeProduto, p.descricaoProduto, cp.quantidade, cp.preco, cp.precoTotal,p.imagemProduto,c.idComanda,cp.idComanda_Produtos
+                  FROM tbcomandaproduto cp
+                  JOIN tbproduto p ON cp.idProduto = p.idProduto
+                  JOIN tbcomanda c ON cp.idComanda = c.idComanda
+                  WHERE c.idUsuario = ? ";
         $stmt = $conexao->prepare($query);
         $stmt->bindValue(1, $usuarioId, PDO::PARAM_INT);
         $stmt->execute();

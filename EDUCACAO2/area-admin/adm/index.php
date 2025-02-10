@@ -1,19 +1,18 @@
-<?php
-      if(!isset($_SESSION)) {
-        session_start();
-        $authUsuario = $_SESSION["authUsuario"];
-        
-    }
-    
-    
-    
-    if(!isset($authUsuario['id'])) {
-        header("location:../../area-admin/login/login.php");
-    }
-    require_once (__DIR__.'../../../DAO/usuarioDAO.php'); 
-    $users = UsuarioDAO::showAll();
-    // var_dump($users);
-  ?>
+<?php 
+     if(!isset($_SESSION)) {
+      session_start();
+      $authADM = $_SESSION["authADM"];
+      
+  }
+  
+  
+  
+  if(!isset($authADM['id'])) {
+      header("location:../../area-admin/login/login.php");
+  }
+  require_once '../../dao/admDAO.php'; 
+  $users = AdmDAO::selectAll();
+?>
 
 <!DOCTYPE html>
 <html lang="pt-br">
@@ -21,7 +20,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>KitEscolar - Adm</title>
+  <title>Kit Escolar - Adm</title>
   <link rel="short icon" href="./../../img/site/logo.png" />
   <!-- Bootstrap -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -54,31 +53,29 @@
             <thead>
               <tr>
                 <th class="col-md-1">ID</th>
-                <th class="col-md-1">Nascimento</th>
                 <th class="col-md-3">Nome </th>
                 <th class="col-md-3">E-mail</th>
-                <th class="col-md-2">Email verificado</th>
+                <th class="col-md-3">TOKEN</th>
                 <th class="text-center col-md-1">Alterar</th>
                 <th class="text-center col-md-1">Excluir</th>
               </tr>
               <?php foreach($users as $user) { ?>
               <tr>
-                <td><?=$user["idUsuario"]?></td>
-                <td><?= date('d/m/Y', strtotime($user['nascimentoUsuario']));  ?></td>
-                <td><?=$user['nomeUsuario']?></td>
-                <td><?=$user['emailUsuario']?></td>
-                <td><?=$user['emailVerificadoUsuario']?></td>
+                <td><?=$user[0]?></td> 
+                <td><?=$user[1]?></td>
+                <td><?=$user[2]?></td>
+                <td><?=$user[4]?></td>
                 <td class="text-center">
                   <form action="process.php" method="POST">
                     <input type="hidden" class="form-control" id="acao" name="acao" value="SELECTID">
-                    <input type="text" class="form-control" id="id" name="id" value="<?=$user["idUsuario"]?>">
+                    <input type="hidden" class="form-control" id="id" name="id" value="<?=$user[0]?>">
                     <button type="submit" class="dropdown-item" ><i
                         class="fas fa-edit fa-lg text-secondary"></i>
                     </button>
                   </form>
                 </td>
                 <td class="text-center ">
-                  <a class="dropdown-item" onclick="modalRemover(<?=$user['idUsuario']?>,'idDeletar')">
+                  <a class="dropdown-item" onclick="modalRemover(<?=$user[0]?>,'idDeletar')">
                     <i class="fas fa-trash-alt fa-lg text-danger"></i>
                   </a>
                 </td>
@@ -124,7 +121,10 @@
   <!-- Para usar Mascara  -->
   <script type="text/javascript" src="./../../js/jquery.mask.min.js"></script>
   <script type="text/javascript" src="./../../js/modal.js"></script>
-  <script src="./../../js/personalizar.js"></script>
+  <script src="./../../script/personalizar.js"></script>
+
+ 
+  
 </body>
 
 </html>

@@ -4,13 +4,18 @@
         $authUsuario = $_SESSION["authUsuario"];
         
     }
+    if (isset($_SESSION["authUsuario"])) {
+        header("Location: ../Home/index.php");
+        exit(); // Encerra o script para garantir que o redirecionamento funcione
+    }
+    
     require_once (__DIR__.'../../DAO/comandaProdutoDAO.php'); 
     if(isset($authUsuario)){
         $comandaProdutos = ComandaProdutoDAO::showById($authUsuario['id']);
     }else{
         $comandaProdutos = "";
     }
-    var_dump($comandaProdutos);
+
 
 ?>
 
@@ -23,6 +28,7 @@
         </a>
 
         <!-- Menu de navegação -->
+         
         <nav>
             <ul class="nav">
                 <li class="nav-item"><a href="../Home/" class="nav-link text-dark">Home</a></li>
@@ -30,14 +36,9 @@
                 <li class="nav-item"><a href="../Home/#sobre" class="nav-link text-dark">Sobre Nós</a></li>
                 <li class="nav-item"><a href="https://api.whatsapp.com/send/?phone=5511971233824&text&type=phone_number&app_absent=0" class="nav-link text-dark">Contato</a></li>
                 <!-- Ícone de lupa -->
-                <li class="nav-item">
-                    <a href="#" id="search-icon" class="nav-link text-dark" aria-label="Buscar produtos">
+               <li class="nav-item">
+                    <a href="../Produtos/totalProdutos.php"  class="nav-link text-dark" aria-label="Buscar produtos">
                         <i class="fas fa-search"></i>
-                    </a>
-                </li>
-                <!-- Ícone de carrinho -->
-                  <li class="nav-item"><a href="../Carrinho/" class="nav-link text-dark">
-                        <i class="fas fa-shopping-cart"></i>
                     </a>
                 </li>
                 <!-- Ícone de perfil -->
@@ -98,32 +99,8 @@
 
 <script>
 document.addEventListener('DOMContentLoaded', () => {
-    const searchIcon = document.getElementById('search-icon');
-    const searchBar = document.getElementById('search-bar');
-    const cartIcon = document.querySelector('.fa-shopping-cart');
+   
     const profileIcon = document.getElementById('profile-icon');
-
-    // Exibe a barra de pesquisa ao clicar no ícone de pesquisa
-    searchIcon.addEventListener('click', function (event) {
-        event.preventDefault();
-        searchBar.style.display = (searchBar.style.display === 'flex') ? 'none' : 'flex';
-    });
-
-    // Oculta a barra de pesquisa ao clicar fora dela
-    document.addEventListener('click', function (event) {
-        const isClickInsideSearchBar = searchBar.contains(event.target);
-        const isClickOnSearchIcon = searchIcon.contains(event.target);
-
-        if (!isClickInsideSearchBar && !isClickOnSearchIcon) {
-            searchBar.style.display = 'none';
-        }
-    });
-
-    // Exibe o modal do carrinho ao clicar no ícone do carrinho
-    cartIcon.addEventListener('click', function () {
-        const cartModal = new bootstrap.Modal(document.getElementById('cartModal'));
-        cartModal.show();
-    });
 
     // Exibe o modal do perfil ao clicar no ícone de perfil
     profileIcon.addEventListener('click', function () {

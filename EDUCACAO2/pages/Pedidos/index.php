@@ -1,3 +1,15 @@
+<?php
+       if(!isset($_SESSION)) {
+        session_start();
+        $authUsuario = $_SESSION["authUsuario"];  
+    }
+require_once(__DIR__.'/../../DAO/comandaDAO.php');
+require_once(__DIR__.'/../../DAO/produtoDAO.php');
+$usuarioId = $_SESSION['authUsuario']['id']; 
+$comandasPendentes = ComandaDAO::showByIdUser($usuarioId);
+$produtosPendentes = ProdutoDAO::showAllProdutos($usuarioId);
+
+?>
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -23,7 +35,13 @@
 </head>
 <body>
     <!-- Site NavBar -->
-    <?php include('../../components/navBar.php'); ?>
+    <?php 
+           if(isset($_SESSION["authUsuario"])){
+            $authUsuario = $_SESSION["authUsuario"];
+            include('../../components/navBarLogado.php');//aqui é a verificação para ver se o usuario esta online
+          }else{
+            include('../../components/navBar.php');//aqui é a verificação para ver se o usuario esta off
+          } ?>
 
     <section class="order-tracking py-5">
         <div class="container">
@@ -64,30 +82,30 @@
                 <div class="tab-pane fade show active" id="preparing" role="tabpanel" aria-labelledby="preparing-tab">
                     <div class="card">
                         <div class="card-body">
-                            <h5 class="card-title">Pedido #12345</h5>
+                        <?php 
+                        foreach($comandasPendentes as $comanda){
+                            if($comanda["statusComanda"] == "Em andamento"){?>
+                                <h5 class="card-title">Pedido #<?= $comanda["idComanda"] ?></h5>
                             <ul class="list-group list-group-flush">
-                                <li class="list-group-item">
-                                    <div class="d-flex justify-content-between">
-                                        <span>Caderno Universitário</span>
-                                        <span>2x R$ 15,00</span>
-                                    </div>
-                                </li>
-                                <li class="list-group-item">
-                                    <div class="d-flex justify-content-between">
-                                        <span>Caneta Esferográfica</span>
-                                        <span>5x R$ 2,00</span>
-                                    </div>
-                                </li>
-                                <li class="list-group-item fw-bold">
+                            <?php  foreach($produtosPendentes as $produtoComanda){ 
+                                if ($produtoComanda["idComanda"] == $comanda["idComanda"]) { ?>
+                                    <li class="list-group-item">
+                                        <div class="d-flex justify-content-between">
+                                            <span><?=$produtoComanda["nomeProduto"]?></span>
+                                            <span><?=$produtoComanda["quantidade"]?>x R$<?=$produtoComanda["preco"]?>,00</span>
+                                        </div>
+                                    </li>
+                                    <li class="list-group-item fw-bold">
                                     <div class="d-flex justify-content-between">
                                         <span>Total</span>
-                                        <span>R$ 40,00</span>
+                                        <span>R$ <?=$produtoComanda["precoTotal"]?>,00</span>
                                     </div>
                                 </li>
-                            </ul>
-                            <div class="mt-3">
-                                <button class="btn btn-danger btn-sm">Cancelar Pedido</button>
-                            </div>
+                                </ul>
+                                <div class="mt-3 mb-3">
+                                    <button class="btn btn-danger btn-sm">Cancelar Pedido</button>
+                                </div>
+                                <?php } } } } ?>
                         </div>
                     </div>
                 </div>
@@ -96,24 +114,30 @@
                 <div class="tab-pane fade" id="on-the-way" role="tabpanel" aria-labelledby="on-the-way-tab">
                     <div class="card">
                         <div class="card-body">
-                            <h5 class="card-title">Pedido #12346</h5>
+                        <?php 
+                        foreach($comandasPendentes as $comanda){
+                            if($comanda["statusComanda"] == "A caminho"){?>
+                                <h5 class="card-title">Pedido #<?= $comanda["idComanda"] ?></h5>
                             <ul class="list-group list-group-flush">
-                                <li class="list-group-item">
-                                    <div class="d-flex justify-content-between">
-                                        <span>Mochila Escolar</span>
-                                        <span>1x R$ 120,00</span>
-                                    </div>
-                                </li>
-                                <li class="list-group-item fw-bold">
+                            <?php  foreach($produtosPendentes as $produtoComanda){ 
+                                if ($produtoComanda["idComanda"] == $comanda["idComanda"]) { ?>
+                                    <li class="list-group-item">
+                                        <div class="d-flex justify-content-between">
+                                            <span><?=$produtoComanda["nomeProduto"]?></span>
+                                            <span><?=$produtoComanda["quantidade"]?>x R$<?=$produtoComanda["preco"]?>,00</span>
+                                        </div>
+                                    </li>
+                                    <li class="list-group-item fw-bold">
                                     <div class="d-flex justify-content-between">
                                         <span>Total</span>
-                                        <span>R$ 120,00</span>
+                                        <span>R$ <?=$produtoComanda["precoTotal"]?>,00</span>
                                     </div>
                                 </li>
-                            </ul>
-                            <div class="mt-3">
-                                <button class="btn btn-primary btn-sm">Rastrear Pedido</button>
-                            </div>
+                                </ul>
+                                <div class="mt-3 mb-3">
+                                    <button class="btn btn-danger btn-sm">Cancelar Pedido</button>
+                                </div>
+                                <?php } } } } ?>
                         </div>
                     </div>
                 </div>
@@ -122,24 +146,30 @@
                 <div class="tab-pane fade" id="completed" role="tabpanel" aria-labelledby="completed-tab">
                     <div class="card">
                         <div class="card-body">
-                            <h5 class="card-title">Pedido #12344</h5>
+                        <?php 
+                        foreach($comandasPendentes as $comanda){
+                            if($comanda["statusComanda"] == "Concluido"){?>
+                                <h5 class="card-title">Pedido #<?= $comanda["idComanda"] ?></h5>
                             <ul class="list-group list-group-flush">
-                                <li class="list-group-item">
-                                    <div class="d-flex justify-content-between">
-                                        <span>Lápis de Cor</span>
-                                        <span>1x R$ 25,00</span>
-                                    </div>
-                                </li>
-                                <li class="list-group-item fw-bold">
+                            <?php  foreach($produtosPendentes as $produtoComanda){ 
+                                if ($produtoComanda["idComanda"] == $comanda["idComanda"]) { ?>
+                                    <li class="list-group-item">
+                                        <div class="d-flex justify-content-between">
+                                            <span><?=$produtoComanda["nomeProduto"]?></span>
+                                            <span><?=$produtoComanda["quantidade"]?>x R$<?=$produtoComanda["preco"]?>,00</span>
+                                        </div>
+                                    </li>
+                                    <li class="list-group-item fw-bold">
                                     <div class="d-flex justify-content-between">
                                         <span>Total</span>
-                                        <span>R$ 25,00</span>
+                                        <span>R$ <?=$produtoComanda["precoTotal"]?>,00</span>
                                     </div>
                                 </li>
-                            </ul>
-                            <div class="mt-3">
-                                <button class="btn btn-success btn-sm">Pedido Entregue</button>
-                            </div>
+                                </ul>
+                                <div class="mt-3 mb-3">
+                                    <button class="btn btn-danger btn-sm">Cancelar Pedido</button>
+                                </div>
+                                <?php } } } } ?>
                         </div>
                     </div>
                 </div>
@@ -148,24 +178,37 @@
                 <div class="tab-pane fade" id="cancelled" role="tabpanel" aria-labelledby="cancelled-tab">
                     <div class="card">
                         <div class="card-body">
-                            <h5 class="card-title">Pedido #12343</h5>
-                            <ul class="list-group list-group-flush">
-                                <li class="list-group-item">
-                                    <div class="d-flex justify-content-between">
-                                        <span>Estojo Escolar</span>
-                                        <span>1x R$ 30,00</span>
+                        <?php 
+                            foreach ($comandasPendentes as $comanda) {
+                                if ($comanda["statusComanda"] == "Cancelado") { ?>
+                                    <h5 class="card-title">Pedido #<?= $comanda["idComanda"] ?></h5>
+                                    <ul class="list-group list-group-flush">
+                                    <?php  
+                                    $temProduto = false; 
+                                    foreach ($produtosPendentes as $produtoComanda) { 
+                                        if ($produtoComanda["idComanda"] == $comanda["idComanda"]) { 
+                                            $temProduto = true; ?>
+                                            <li class="list-group-item">
+                                                <div class="d-flex justify-content-between">
+                                                    <span><?= $produtoComanda["nomeProduto"] ?></span>
+                                                    <span><?= $produtoComanda["quantidade"] ?>x R$<?= number_format($produtoComanda["preco"], 2, ',', '.') ?></span>
+                                                </div>
+                                            </li>
+                                        <?php 
+                                        } 
+                                    }
+                                    ?>
+                                    </ul> 
+                                    <?php if (!$temProduto) { ?>
+                                        <p class="text-muted">Nenhum produto encontrado para esta comanda.</p>
+                                    <?php } ?>
+                                    <div class="mt-3 mb-3">
+                                        <button class="btn btn-secondary btn-sm" disabled>Pedido Cancelado</button>
                                     </div>
-                                </li>
-                                <li class="list-group-item fw-bold">
-                                    <div class="d-flex justify-content-between">
-                                        <span>Total</span>
-                                        <span>R$ 30,00</span>
-                                    </div>
-                                </li>
-                            </ul>
-                            <div class="mt-3">
-                                <button class="btn btn-secondary btn-sm" disabled>Pedido Cancelado</button>
-                            </div>
+                            <?php 
+                                } 
+                            } 
+                            ?>
                         </div>
                     </div>
                 </div>

@@ -85,7 +85,7 @@ JOIN tbproduto p ON cp.idProduto = p.idProduto;
                     quantidade = ?, 
                     preco = ?, 
                     total = ? 
-                  WHERE idComandaProduto = ?";
+                  WHERE idComanda_Produtos = ?";
         $stmt = $conexao->prepare($query);
         $stmt->bindValue(1, $comandaProduto->getIdComanda());
         $stmt->bindValue(2, $comandaProduto->getIdProduto());
@@ -103,7 +103,7 @@ JOIN tbproduto p ON cp.idProduto = p.idProduto;
 
     public static function deleteComandaProduto($id) {
         $conexao = Conexao::conexaoBanco_de_Dados();
-        $query = "DELETE FROM tbComandaProduto WHERE idComandaProduto = ?";
+        $query = "DELETE FROM tbComandaProduto WHERE idComanda_Produtos = ?";
         $stmt = $conexao->prepare($query);
         $stmt->bindValue(1, $id);
 

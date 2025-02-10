@@ -1,13 +1,13 @@
 <?php
-      if(!isset($_SESSION)) {
-        session_start();
-        $authUsuario = $_SESSION["authUsuario"];
-        
-    }
+        if(!isset($_SESSION)) {
+          session_start();
+          $authADM = $_SESSION["authADM"];
+          
+      }
     
     
     
-    if(!isset($authUsuario['id'])) {
+    if(!isset($authADM['id'])) {
         header("location:../../area-admin/login/login.php");
     }
     require_once (__DIR__.'../../../DAO/ProdutoDAO.php'); 

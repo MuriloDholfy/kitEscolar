@@ -1,8 +1,9 @@
 <?php 
 if (!isset($_SESSION)) {
     session_start();
-    $authUsuario = $_SESSION["authUsuario"] ?? null; // Usando operador null coalescing para evitar erros
 }
+
+$authUsuario = $_SESSION["authUsuario"] ?? null;
 
 require_once (__DIR__.'../../DAO/comandaProdutoDAO.php'); 
 
@@ -12,7 +13,6 @@ if (isset($authUsuario)) {
     $comandaProdutos = "";
 }
 
-var_dump($comandaProdutos);
 ?>
 
 <header class="bg-light py-3 shadow-sm sticky-top">
@@ -31,7 +31,7 @@ var_dump($comandaProdutos);
                 <li class="nav-item"><a href="https://api.whatsapp.com/send/?phone=5511971233824&text&type=phone_number&app_absent=0" class="nav-link text-dark">Contato</a></li>
                 <!-- Ícone de lupa -->
                 <li class="nav-item">
-                    <a href="#" id="search-icon" class="nav-link text-dark" aria-label="Buscar produtos">
+                    <a href="../Produtos/totalProdutos.php"  class="nav-link text-dark" aria-label="Buscar produtos">
                         <i class="fas fa-search"></i>
                     </a>
                 </li>
@@ -50,7 +50,9 @@ var_dump($comandaProdutos);
                     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="profileDropdown">
                         <li><a class="dropdown-item" href="../Perfil/">Perfil</a></li>
                         <li><hr class="dropdown-divider"></li>
-                        <li><a class="dropdown-item" href="#">Sair</a></li>
+                        <form method="post" action="logout.php">
+                        <li><button class="dropdown-item" href="#">Sair</button></li>
+                        </form>
                     </ul>
                 </li>
             </ul>

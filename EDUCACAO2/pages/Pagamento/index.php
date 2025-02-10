@@ -1,12 +1,14 @@
 <?php
 require_once(__DIR__.'/../../DAO/produtoDAO.php');
+require_once(__DIR__.'/../../DAO/usuarioDAO.php');
 
 if (!isset($_SESSION)) {
     session_start();
 }
 $usuarioId = $_SESSION['authUsuario']['id']; 
 $produtosPendentes = ProdutoDAO::showProdutosPendentes($usuarioId);
-
+$enderecos = UsuarioDAO::showByIdEndereco($usuarioId);
+// var_dump($enderecos);
 $totalItens = 0;
 $totalPreco = 0;
 
@@ -15,10 +17,7 @@ foreach ($produtosPendentes as $produto) {
     $totalPreco += $produto['precoTotal'] * $produto['quantidade'];
 }
 
-// Simulação de endereços cadastrados (substitua por uma consulta ao banco de dados)
-$enderecosCadastrados = [
-    ['id' => 1, 'endereco' => 'Rua A, 123 - São Paulo, SP'],
-];
+
 ?>
 
 <!DOCTYPE html>
@@ -37,7 +36,13 @@ $enderecosCadastrados = [
 </head>
 <body>
     <!-- Site NavBar -->
-    <?php include('../../components/navBar.php'); ?>
+    <?php 
+           if(isset($_SESSION["authUsuario"])){
+            $authUsuario = $_SESSION["authUsuario"];
+            include('../../components/navBarLogado.php');//aqui é a verificação para ver se o usuario esta online
+          }else{
+            include('../../components/navBar.php');//aqui é a verificação para ver se o usuario esta off
+          } ?>
 
     <section class="finalizar-pagamento py-5 bg-light">
         <div class="container">
@@ -57,19 +62,18 @@ $enderecosCadastrados = [
                             </button>
                             <!-- Dropdown de Endereços -->
                             <ul class="dropdown-menu">
-                                <?php foreach ($enderecosCadastrados as $endereco): ?>
-                                    <li>
-                                        <a class="dropdown-item" href="#" data-endereco="<?= $endereco['endereco'] ?>">
-                                            <?= $endereco['endereco'] ?>
-                                        </a>
-                                    </li>
-                                <?php endforeach; ?>
-                                <li><hr class="dropdown-divider"></li>
                                 <li>
                                     <a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#addAddressModal">
                                         <i class="fas fa-plus me-2"></i>Adicionar Endereço
                                     </a>
                                 </li>
+                                <?php foreach ($enderecos as $endereco): ?>
+                                    <li>
+                                        <a class="dropdown-item" href="#" data-endereco="<?= $endereco['rua'] ?>">
+                                           CEP : <?= $endereco['cep']?> ,RUA:<?= $endereco['rua']?> Nº<?= $endereco['numero']?>
+                                        </a>
+                                    </li>
+                                <?php endforeach; ?>
                             </ul>
                         </li>
                         <li><strong>Total a Pagar:</strong> R$ <?= number_format($totalPreco + 20, 2, ',', '.') ?></li>
@@ -79,13 +83,12 @@ $enderecosCadastrados = [
                 <!-- Informações de pagamento -->
                 <div class="col-md-6 mt-4">
                     <h5>Forma de Pagamento</h5>
-                    <form id="paymentForm">
+                    <form id="paymentForm" method="post" action="pagamentoProcess.php">
                         <!-- Selecione o método de pagamento -->
                         <div class="mb-3">
                             <label for="paymentMethod" class="form-label">Selecione o Método de Pagamento</label>
                             <select class="form-select" id="paymentMethod" required>
                                 <option value="" disabled selected>Escolha...</option>
-                                <option value="cartao">Cartão de Crédito</option>
                                 <option value="duepay">DuePay</option>
                             </select>
                         </div>
@@ -93,17 +96,17 @@ $enderecosCadastrados = [
                             <label for="shippingAddress" class="form-label"><strong>Frete</strong></label>
                             <select class="form-select" id="shippingAddress" required>
                                 <option value="" disabled selected>Selecione um endereço...</option>
-                                <?php foreach ($enderecosCadastrados as $endereco): ?>
-                                    <option value="<?= $endereco['id'] ?>" data-valor="<?= $endereco['valor_frete'] ?>">
-                                        <?= $endereco['endereco'] ?> - R$ <?= number_format($endereco['valor_frete'], 2, ',', '.') ?>
+                                <?php foreach ($enderecos as $endereco): ?>
+                                    <option value="<?= $endereco['idLogradouro'] ?>">
+                                    CEP : <?= $endereco['cep']?> ,RUA:<?= $endereco['rua']?> Nº<?= $endereco['numero']?>
                                     </option>
                                 <?php endforeach; ?>
                                 <option value="novo">Adicionar novo endereço...</option>
                             </select>
                         </div>
 
-
-                        <!-- Formulário de Cartão de Crédito -->
+<!-- 
+                        Formulário de Cartão de Crédito
                         <div id="creditCardForm" class="payment-method-form">
                             <div class="mb-3">
                                 <label for="cartao" class="form-label">Número do Cartão</label>
@@ -121,13 +124,19 @@ $enderecosCadastrados = [
                                 <label for="nome-titular" class="form-label">Nome do Titular</label>
                                 <input type="text" class="form-control" id="nome-titular" required>
                             </div>
-                        </div>
+                        </div> -->
 
                         <!-- Formulário DuePay -->
-                        <div id="duepayForm" class="payment-method-form" style="display: none;">
+                         
+                        <div id="duepayForm" class="payment-method-form" class="payment-method-form">
                             <div class="mb-3">
                                 <label for="duepayEmail" class="form-label">E-mail DuePay</label>
                                 <input type="email" class="form-control" id="duepayEmail" placeholder="Seu e-mail DuePay" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="duepayTelefone" class="form-label">Telefone Duepay(Contato)</label>
+                                <input type="text" class="form-control"  id="telefone" placeholder="DDDXXXXXXXX" maxlength="11" >
+                                
                             </div>
                             <div class="mb-3">
                                 <label for="duepayPassword" class="form-label">Senha DuePay</label>
@@ -154,19 +163,40 @@ $enderecosCadastrados = [
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
             </div>
             <div class="modal-body">
-                <form id="newAddressForm">
-                    <div class="mb-3">
-                        <label for="newAddress" class="form-label">Endereço</label>
-                        <input type="text" class="form-control" id="newAddress" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="newFreteValue" class="form-label">Valor do Frete (R$)</label>
-                        <input type="number" class="form-control" id="newFreteValue" step="0.01" required>
-                    </div>
-                    <p id="totalCompra" data-valor="100.00"><strong>Total: R$ 100,00</strong></p>
+            <form id="newAddressForm" method="post" action="enderecoProcess.php">
+            <input type="hidden" name="idUsuario" value="<?= $authUsuario['id']?>">
+                <div class="mb-3">
+                    <label for="cep" class="form-label">CEP</label>
+                    <input type="text" class="form-control" id="cep" name="cep" required>
+                </div>
+                <div class="mb-3">
+                    <label for="bairro" class="form-label">Bairro</label>
+                    <input type="text" class="form-control" id="bairro" name="bairro" required>
+                </div>
+                <div class="mb-3">
+                    <label for="cidade" class="form-label">Cidade</label>
+                    <input type="text" class="form-control" id="cidade" name="cidade" required>
+                </div>
+                <div class="mb-3">
+                    <label for="numero" class="form-label">Número</label>
+                    <input type="text" class="form-control" id="numero" name="numero" required>
+                </div>
+                <div class="mb-3">
+                    <label for="estado" class="form-label">Estado</label>
+                    <input type="text" class="form-control" id="estado" name="estado" required>
+                </div>
+                <div class="mb-3">
+                    <label for="RUA" class="form-label">RUA</label>
+                    <input type="text" class="form-control" id="RUA" name="RUA" required>
+                </div>
+                <div class="mb-3">
+                    <label for="newFreteValue" class="form-label">Valor do Frete (R$)</label>
+                </div>
+                <p id="totalCompra" data-valor="100.00"><strong>Total: Será calculado após confirmar o pagamento</strong></p>
 
-                    <button type="submit" class="btn btn-primary">Salvar Endereço</button>
-                </form>
+                <button type="submit" class="btn btn-primary">Salvar Endereço</button>
+            </form>
+
             </div>
         </div>
     </div>
@@ -197,7 +227,8 @@ $enderecosCadastrados = [
 
     <!-- Bootstrap JS -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
-
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js"></script>
     <!-- Script para controlar o formulário de pagamento e endereços -->
     <script>
         // Alternar entre formulários de pagamento
@@ -234,7 +265,29 @@ $enderecosCadastrados = [
             bootstrap.Modal.getInstance(document.getElementById('confirmModal')).hide();
         });
     </script>
+    <script>
+        document.getElementById("cep").addEventListener("blur", function () {
+    let cep = this.value.replace(/\D/g, ""); // Remove caracteres não numéricos
 
+    if (cep.length === 8) {
+        fetch(`https://viacep.com.br/ws/${cep}/json/`)
+            .then(response => response.json())
+            .then(data => {
+                if (!data.erro) {
+                    document.getElementById("bairro").value = data.bairro;
+                    document.getElementById("cidade").value = data.localidade;
+                    document.getElementById("estado").value = data.uf;
+                } else {
+                    alert("CEP não encontrado!");
+                }
+            })
+            .catch(error => console.error("Erro ao buscar CEP:", error));
+    } else {
+        alert("CEP inválido! Digite um CEP válido.");
+    }
+});
+
+    </script>
 <script>
     document.getElementById('shippingAddress').addEventListener('change', function () {
         let selectedOption = this.options[this.selectedIndex];
@@ -254,28 +307,12 @@ $enderecosCadastrados = [
         }
     });
 
-    // Adiciona um novo endereço à lista ao salvar
-    document.getElementById('newAddressForm').addEventListener('submit', function (event) {
-        event.preventDefault();
 
-        let endereco = document.getElementById('newAddress').value;
-        let valorFrete = parseFloat(document.getElementById('newFreteValue').value);
-
-        if (endereco && valorFrete) {
-            let novoOption = document.createElement("option");
-            novoOption.value = "novo_" + Date.now(); // ID temporário
-            novoOption.text = endereco + " - R$ " + valorFrete.toFixed(2).replace('.', ',');
-            novoOption.setAttribute("data-valor", valorFrete);
-
-            document.getElementById('shippingAddress').insertBefore(novoOption, document.getElementById('shippingAddress').lastChild);
-            
-            // Fecha o modal e reseta o formulário
-            let addAddressModal = bootstrap.Modal.getInstance(document.getElementById('addAddressModal'));
-            addAddressModal.hide();
-            document.getElementById('newAddressForm').reset();
-        }
-    });
 </script>
-
+<script src="https://cdn.jsdelivr.net/npm/vanilla-masker@1.1.2/lib/vanilla-masker.min.js"></script>
+<script>
+  const telefoneInput = document.getElementById('telefone');
+  VMasker(telefoneInput).maskPattern('(99) 99999-9999');
+</script>
 </body>
 </html>

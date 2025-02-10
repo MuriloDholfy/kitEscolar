@@ -1,4 +1,11 @@
-
+<?php 
+        if (!isset($_SESSION)) {
+            session_start();
+        }
+        
+        $authUsuario = $_SESSION["authUsuario"] ?? null;
+        
+?>
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>

@@ -1,6 +1,6 @@
 <?php 
     class LogradouroModel {
-        private $idLogradouro,$ruaLogrado,$numeroLogrado,$bairroLogrado,$cidadeLogrado,$estadoLogrado,$cepLogrado,$complementoLogrado;
+        private $idLogradouro,$ruaLogrado,$numeroLogrado,$bairroLogrado,$cidadeLogrado,$estadoLogrado,$cepLogrado;
 
 
         public function getIdLogradouro(){
@@ -50,15 +50,7 @@
         public function setCepLogrado($cepLogrado) {
             $this->cepLogrado = $cepLogrado;
         }
-        
-        public function getComplementoLogrado() {
-            return $this->complementoLogrado;
-        }
-        
-        public function setComplementoLogrado($complementoLogrado) {
-            $this->complementoLogrado = $complementoLogrado;
-        }
-        
+    
         
     }
 

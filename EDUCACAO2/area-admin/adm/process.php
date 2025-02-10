@@ -1,20 +1,20 @@
 <?php
-require_once __DIR__.'/../../dao/UserDao.php';
+require_once __DIR__.'/../../dao/admDao.php';
 
-require_once __DIR__.'/../../model/User.php';
+require_once __DIR__.'/../../model/admModel.php';
 
  //require_once '../../model/Mensagem.php';
 
- $user = new User();
+ $user = new AdmModel();
  //$msg = new Mensagem();
 
-  //var_dump($_POST); 
+   
 
 
  switch ($_POST["acao"]) {
   case 'DELETE':
    try {
-        $userDao = UserDao::delete($_POST['idDeletar']);
+        $admDAO = AdmDAO::delete($_POST['idDeletar']);
         header("Location: index.php");
     } catch (Exception $e) {
       echo 'Exceção capturada: ',  $e->getMessage(), "\n";
@@ -24,39 +24,32 @@ require_once __DIR__.'/../../model/User.php';
   case 'SALVAR':
     //pode validar as informações
     $user->setNome($_POST['nome']);
-    $user->setSobrenome($_POST['sobrenome']);
-    $user->setCpf($_POST['cpf']);
-    $user->setNasc($_POST['nasc']);
     $user->setEmail($_POST['email']);
     $user->setPassword($_POST['senha']);
     $user->setImagem($user->salvarImagem($_POST['nomeFoto'])); 
     $user->setToken($user->generateToken());
-    //var_dump($_POST);
+    
     try {
-        $userDao = UserDao::insert($user);
-      //$msg->setMensagem("Usuário Salvo com sucesso.", "bg-success");
+        $admDAO = admDAO::insert($user);
+        header("Location: index.php");
       header("Location: index.php");
     } catch (Exception $e) {
      echo 'Exceção capturada: ',  $e->getMessage(), "\n";
-      //$msg->setMensagem("Verifique os dados Digitados.", "bg-danger");
-      header("Location: register.php");
+      //header("Location: register.php");
     } 
     break;
   case 'ATUALIZAR':
         //pode validar as informações
         $user->setNome($_POST['nome']);
-        $user->setSobrenome($_POST['sobrenome']);
-        $user->setCpf($_POST['cpf']);
-        $user->setNasc($_POST['nasc']);
         $user->setEmail($_POST['email']);
         $user->setPassword($_POST['senha']);
         $user->setImagem($user->salvarImagem($_POST['nomeFoto'])); 
         $user->setToken($user->generateToken());
         try {
-          $userDao = UserDao::update($_POST["idUser"], $user);
+          $admDAO = admDAO::update($_POST["idUser"], $user);
           //$msg->setMensagem("Usuário Atualizado com sucesso.", "bg-success");
           header("Location: index.php");
-          var_dump($_POST);
+          
         } catch (Exception $e) {
          echo 'Exceção capturada: ',  $e->getMessage(), "\n";
 
@@ -66,22 +59,13 @@ require_once __DIR__.'/../../model/User.php';
   case 'SELECTID':
 
     try {
-        $userDao = UserDao::selectById($_POST['id']);
+        $admDAO = admDAO::selectById($_POST['id']);
         // Configura as opções do contexto da solicitação
         include('register.php');
     } catch (Exception $e) {
         echo 'Exceção capturada: ',  $e->getMessage(), "\n";
     } 
-
-  
     break;
 
-
   }
-
-
-
-
- 
-
 ?>

@@ -34,6 +34,14 @@ class ComandaDAO {
         $stmt->execute();
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
+    public static function showByIdUser($id) {
+        $conexao = Conexao::conexaoBanco_de_Dados();
+        $query = "SELECT * FROM tbComanda WHERE idUsuario = ?";
+        $stmt = $conexao->prepare($query);
+        $stmt->bindValue(1, $id);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
 
     public static function showAll() {
         $conexao = Conexao::conexaoBanco_de_Dados();
@@ -72,11 +80,14 @@ JOIN tbusuario u ON c.idUsuario = u.idUsuario;
         }
     }
 
-    public static function deleteComanda($id) {
+    public static function cancelComanda($id) {
         $conexao = Conexao::conexaoBanco_de_Dados();
-        $query = "DELETE FROM tbComanda WHERE idComanda = ?";
+        $query = "UPDATE tbComanda SET 
+                    statusComanda = ? 
+                  WHERE idComanda = ?";
         $stmt = $conexao->prepare($query);
-        $stmt->bindValue(1, $id);
+        $stmt->bindValue(1, "Cancelado");
+        $stmt->bindValue(2, $id);
 
         if ($stmt->execute()) {
             return true;

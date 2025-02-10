@@ -1,20 +1,9 @@
 <?php
-
-    //    if(isset($_SESSION["authUsuario"])){
-    //      $authUsuario = $_SESSION["authUsuario"];
-    //      include(__DIR__.'');//aqui é a verificação para ver se o usuario esta online
-    //    }else{
-    //      include(__DIR__.'');//aqui é a verificação para ver se o usuario esta off
-    //    }
-       if(!isset($_SESSION)) {
+      if (!isset($_SESSION)) {
         session_start();
-        $authUsuario = $_SESSION["authUsuario"];
-        
     }
     
-
-    
-
+    $authUsuario = $_SESSION["authUsuario"] ?? null;
     require_once (__DIR__.'../../../DAO/ProdutoDAO.php'); 
     $produtos = ProdutoDAO::showAll();
    ?>
@@ -35,7 +24,13 @@
 </head>
 <body>
     <!-- Site NavBar -->
-    <?php include('../../components/navBar.php'); ?>
+    <?php 
+           if(isset($_SESSION["authUsuario"])){
+            $authUsuario = $_SESSION["authUsuario"];
+            include('../../components/navBarLogado.php');//aqui é a verificação para ver se o usuario esta online
+          }else{
+            include('../../components/navBar.php');//aqui é a verificação para ver se o usuario esta off
+          } ?>
 
     <!-- Seção de Produtos -->
     <section id="produtos" class="py-5">
@@ -89,10 +84,10 @@
             <p id="descricaoProduto"></p>
             <p id="precoProduto"></p>
             <!-- Campos ocultos para envio -->
-            <input type="text" name="idProduto" id="produtoId">
-            <input type="text" name="nomeProduto" id="produtoNome">
-            <input type="text" name="precoProduto" id="produtoPreco">
-            <input type="text" name="idUsuario" value="<?= $authUsuario['id'] ?>">
+            <input type="hidden" name="idProduto" id="produtoId">
+            <input type="hidden" name="nomeProduto" id="produtoNome">
+            <input type="hidden" name="precoProduto" id="produtoPreco">
+            <input type="hidden" name="idUsuario" value="<?= $authUsuario['id'] ?>">
             <div class="mb-3">
               <label for="quantidadeProduto" class="form-label">Quantidade</label>
               <input type="number" class="form-control" id="quantidadeProduto" name="quantidadeProduto" value="1" min="1">
@@ -113,32 +108,32 @@
 
 
 
-<script>
-   
+   <script>
+    
+    document.addEventListener('DOMContentLoaded', function () {
+    const modalCompra = document.getElementById('modalCompra');
 
-      
-   const modalCompra = document.getElementById('modalCompra');
     modalCompra.addEventListener('show.bs.modal', function (event) {
-    const button = event.relatedTarget; // Botão que acionou o modal
+        const button = event.relatedTarget; // Botão que acionou o modal
 
-    // Extrai os dados do botão
-    const nome = button.getAttribute('data-nome') || 'Nome não disponível';
-    const descricao = button.getAttribute('data-descricao') || 'Descrição não disponível';
-    const preco = button.getAttribute('data-preco') || '0.00';
-    const imagem = button.getAttribute('data-img') || '../../img/Produto/padrao.png';
+        // Pega os dados do botão
+        const nome = button.getAttribute('data-nome') || 'Produto sem nome';
+        const descricao = button.getAttribute('data-descricao') || 'Descrição não disponível.';
+        const preco = button.getAttribute('data-preco') || '0.00';
+        const imagem = button.getAttribute('data-imagem') || '../../img/Produto/padrao.png';
 
-    // Atualiza os elementos do modal
-    modalCompra.querySelector('#nomeProduto').textContent = nome;
-    modalCompra.querySelector('#descricaoProduto').textContent = descricao;
-    modalCompra.querySelector('#precoProduto').textContent = `Preço: R$ ${parseFloat(preco).toFixed(2).replace('.', ',')}`;
-    modalCompra.querySelector('#imagemProduto').src = imagem;
+        // Atualiza os elementos do modal
+        document.getElementById('nomeProduto').innerText = nome;
+        document.getElementById('descricaoProduto').innerText = descricao;
+        document.getElementById('precoProduto').innerText = `Preço: R$ ${parseFloat(preco).toFixed(2).replace('.', ',')}`;
+        document.getElementById('imagemProduto').src = imagem;
 
-    // Atualiza os inputs do formulário
-    modalCompra.querySelector('#produtoId').value = button.getAttribute('data-id') || '';
-    modalCompra.querySelector('#produtoNome').value = nome;
-    modalCompra.querySelector('#produtoPreco').value = preco;
+        // Atualiza os campos ocultos
+        document.getElementById('produtoId').value = button.getAttribute('data-id') || '';
+        document.getElementById('produtoNome').value = nome;
+        document.getElementById('produtoPreco').value = preco;
+    });
 });
-
 
 </script>
 

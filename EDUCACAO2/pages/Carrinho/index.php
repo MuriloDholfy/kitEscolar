@@ -1,3 +1,23 @@
+<?php
+     if (!isset($_SESSION)) {
+        session_start();
+    }
+    
+    $authUsuario = $_SESSION["authUsuario"] ?? null;
+    
+require_once(__DIR__.'/../../DAO/produtoDAO.php');
+$usuarioId = $_SESSION['authUsuario']['id']; 
+$produtosPendentes = ProdutoDAO::showProdutosPendentes($usuarioId);
+$totalItens = 0;
+$totalPreco = 0;
+
+foreach ($produtosPendentes as $produto) {
+    $totalItens += $produto['quantidade'];
+    $totalPreco += $produto['precoTotal'] * $produto['quantidade'];
+}
+$frete = 20;
+
+?>
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -23,7 +43,13 @@
 </head>
 <body>
     <!-- Site NavBar -->
-    <?php include('../../components/navBar.php'); ?>
+    <?php 
+           if(isset($_SESSION["authUsuario"])){
+            $authUsuario = $_SESSION["authUsuario"];
+            include('../../components/navBarLogado.php');//aqui é a verificação para ver se o usuario esta online
+          }else{
+            include('../../components/navBar.php');//aqui é a verificação para ver se o usuario esta off
+          } ?>
 
     <section class="shopping-cart py-5">
     <div class="container">
@@ -46,25 +72,34 @@
                                 </thead>
                                 <tbody>
                                     <!-- Exemplo de Item no Carrinho -->
-                                    <tr>
+                                     
+                                   <?php foreach($produtosPendentes as $produto){ ?>
+                                   <tr>
                                         <td>
                                             <div class="d-flex align-items-center">
-                                                <img src="../../img/produtos/caderno.jpg" alt="Caderno" class="img-thumbnail" style="width: 60px;">
+                                            <img src="../../img/Produto/<?= !empty($produto["imagemProduto"]) ? $produto["imagemProduto"] : 'padrao.png'; ?>" 
+                                            alt="<?= htmlspecialchars($produto['nomeProduto'], ENT_QUOTES, 'UTF-8') ?>" 
+                                            class="img-fluid mb-3"  style="height:100px;object-fit: cover; border:4px solid #ccc;width:100px ">
                                                 <div class="ms-3">
-                                                    <h6 class="mb-0">Caderno Universitário</h6>
-                                                    <small class="text-muted">Capa dura, 200 folhas</small>
+                                                    <h6 class="mb-0"><?= $produto['nomeProduto']?></h6>
+                                                    <small class="text-muted"><?= $produto['descricaoProduto']?></small>
                                                 </div>
                                             </div>
                                         </td>
                                         <td>
-                                            <input type="number" class="form-control" value="2" min="1" style="width: 70px;">
+                                           <p><?= $produto['quantidade']?></p>
                                         </td>
-                                        <td>R$ 15,00</td>
-                                        <td>R$ 30,00</td>
+                                        <td><?= $produto['preco']?>,00</td>
+                                        <td><?= $produto['precoTotal']?>,00</td>
                                         <td>
-                                            <button class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></button>
+                                            <form method="post" action="carrinhoProcess.php">
+                                            <input type="hidden" class="form-control" id="id" name="idComanda" value="<?=$produto["idComanda"]?>">
+                                            <input type="hidden" class="form-control" id="id" name="idComandaProduto" value="<?=$produto["idComanda_Produtos"]?>">
+                                                <button class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></button>
+                                            </form>
                                         </td>
                                     </tr>
+                                    <?php } ?>
                                     <!-- Fim do Exemplo de Item no Carrinho -->
                                 </tbody>
                             </table>
@@ -81,19 +116,21 @@
                         <ul class="list-group list-group-flush">
                             <li class="list-group-item d-flex justify-content-between align-items-center">
                                 Subtotal
-                                <span>R$ 30,00</span>
+                                <span>R$ <?=$totalPreco?>,00</span>
                             </li>
                             <li class="list-group-item d-flex justify-content-between align-items-center">
                                 Frete
-                                <span>R$ 10,00</span>
+                                <span>R$ <?=$frete?>,00</span>
                             </li>
                             <li class="list-group-item d-flex justify-content-between align-items-center fw-bold">
                                 Total
-                                <span>R$ 40,00</span>
+                                <span>R$ <?=$totalPreco +=$frete;?>,00</span>
                             </li>
                         </ul>
                         <div class="d-grid gap-2 mt-3">
-                            <button class="btn btn-primary btn-lg">Finalizar Compra</button>
+                            <!-- <form action=""> -->
+                              <a href="../../pages/Pagamento/index.php"> <button class="btn btn-primary btn-lg">Finalizar Compra</button></a> 
+                            <!-- </form> -->
                             <button class="btn btn-outline-secondary btn-lg">Continuar Comprando</button>
                         </div>
                     </div>

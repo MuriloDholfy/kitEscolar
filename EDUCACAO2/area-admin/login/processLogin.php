@@ -1,21 +1,21 @@
 <?php
-require_once (__DIR__.'/../../dao/usuarioDao.php');
+require_once (__DIR__.'/../../dao/admDAO.php');
 
 var_dump($_POST);
-$usuario = usuarioDao::checkCredentials($_POST['emailUsuario'], $_POST['senhaUsuario']);
-
+$usuario = admDAO::checkCredentials($_POST['emailUsuario'], $_POST['senhaUsuario']);
+var_dump($usuario);
 
 if($usuario){
-    $authUsuario = [
-        'id' => $usuario['idUsuario'],
-        'nome' => $usuario['nomeUsuario'],
-        'email' => $usuario['emailUsuario'],
-        'senha' => $usuario['senhaUsuario'],
-        'img' => $usuario['imgUsuario']
+    $authADM = [
+        'id' => $usuario['idAdm'],
+        'nome' => $usuario['nomeAdm'],
+        'email' => $usuario['emailAdm'],
+        'senha' => $usuario['senhaAdm'],
+        'img' => $usuario['imgAdm']
 
     ];
         session_start();
-        $_SESSION["authUsuario"] = $authUsuario;
+        $_SESSION["authADM"] = $authADM;
         header("Location: ../home/index.php");
 
 }else{

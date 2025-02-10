@@ -10,7 +10,7 @@
             <div class="col-xs-6 col-md-3">
                 <h6>Categorias</h6>
                 <ul class="footer-links">
-                    <form method="post" action="categoriaProcess.php">
+                    <form method="post" action="../Home/categoriaProcess.php">
                         <li>
                             <button type="submit" name="produto" value="caderno">Cadernos</button>
                         </li>

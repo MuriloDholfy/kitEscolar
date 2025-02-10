@@ -19,6 +19,7 @@ if (isset($usuarioDAO[0])) {
 }else{
     $imagem_Usuario = "";
 }
+
    ?>
 <!DOCTYPE html>
 <html lang="pt-BR">
@@ -36,7 +37,12 @@ if (isset($usuarioDAO[0])) {
 </head>
 <body>
     <!-- Site NavBar -->
-    <?php include('../../components/navBar.php'); ?>
+    <?php   if(isset($_SESSION["authUsuario"])){
+            $authUsuario = $_SESSION["authUsuario"];
+            include('../../components/navBarLogado.php');//aqui é a verificação para ver se o usuario esta online
+          }else{
+            include('../../components/navBar.php');//aqui é a verificação para ver se o usuario esta off
+          } ?> 
 
     <!-- Section de Perfil -->
     <section id="perfil" class="container my-5">
@@ -47,7 +53,7 @@ if (isset($usuarioDAO[0])) {
             <input type="hidden" name="idJogador" id="idJogador" placeholder="id" value="<?= $authUsuario["id"] ?>">
             <input type="hidden" name="nomeFoto" id="nomeFoto" placeholder="nome foto" value="<?=$imagem_Usuario?>">
             <input type="hidden" value="<?=$authUsuario["id"]?'ATUALIZAR':'SALVAR'?>" name="acao">
-            <img id="imagemUsuario" src="../../img/Usuario/<?=$imagem_Usuario != "" ? $imagem_Usuario : 'padrao.jpg';?>" width="360" height="360"alt="Foto de Perfil" class="img-fluid rounded-circle mb-3">
+            <img id="imagemUsuario" src="../../img/Usuario/<?=$imagem_Usuario != "" ? $imagem_Usuario : 'padrao.jpg';?>"style="height:300px; object-fit:cover; border:4px solid #ccc; width:300px;" class="img-fluid rounded-circle mb-3">
             <input type="file" id="foto" name="fotoUsuario" accept="image/*" class="custom-file-input">
                 
                 
@@ -74,8 +80,8 @@ if (isset($usuarioDAO[0])) {
                             <td>(99) 99999-9999</td>
                         </tr> -->
                         <tr>
-                            <td><strong>Data de Cadastro</strong></td>
-                            <td>01/01/2024</td>
+                            <td><strong>Data de Nascimento</strong></td>
+                            <td><?=$usuarioDados['nascimentoUsuario']?></td>
                         </tr>
                     </tbody>
                 </table>
@@ -93,8 +99,8 @@ if (isset($usuarioDAO[0])) {
                 </div>
                 <div class="modal-body">
                  
-                    <input type="text" name="idUsuario" placeholder="id" value="<?=$authUsuario['id']?>">
-                    <input type="text" value="<?=$authUsuario?'ATUALIZAR':'SALVAR'?>" name="acao" >
+                    <input type="hidden" name="idUsuario" placeholder="id" value="<?=$authUsuario['id']?>">
+                    <input type="hidden" value="<?=$authUsuario?'ATUALIZAR':'SALVAR'?>" name="acao" >
                         <div class="mb-3">
                             <label for="nome" class="form-label">Nome</label>
                             <input type="text" name="nomeUsuario" class="form-control" id="nome" value="<?=$authUsuario['nome'] ?>">

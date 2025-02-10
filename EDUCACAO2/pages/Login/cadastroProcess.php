@@ -31,6 +31,7 @@ try {
             exit;
 
         case 'SALVAR':
+         if(!empty($_POST['senhaUsuario']) && $_POST['senhaUsuario'] === $_POST['csenhaUsuario']) {
             $usuario->setNomeUsuario($_POST['nomeUsuario']);
             $usuario->setEmailUsuario($_POST['emailUsuario']);
             $usuario->setSenhaUsuario($_POST['senhaUsuario']);
@@ -83,6 +84,10 @@ try {
             } else {
                 throw new Exception('Erro ao salvar o usuário.');
             }
+        }
+        else{
+            header("Location: cadastro.php?senhasinvalidas");
+        }
     }
 } catch (Exception $e) {
     $response = [
@@ -92,14 +97,7 @@ try {
     echo json_encode($response);
     exit;
 }
-
-
-
-
- 
-    
-
-    $mail->Password = 'tlvi sndi gxxv yzse';
+    // $mail->Password = 'tlvi sndi gxxv yzse';
     
 
   

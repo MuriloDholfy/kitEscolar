@@ -2,10 +2,10 @@
       
     if(!isset($_SESSION)) {
       session_start();
-      $authUsuario = $_SESSION["authUsuario"];
+      $authADM = $_SESSION["authADM"];
       
   }
-  if(!isset($authUsuario['id'])) {
+  if(!isset($authADM['id'])) {
       header("location:../../area-admin/login/login.php");
   }
 ?>

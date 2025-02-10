@@ -13,14 +13,6 @@ header('Content-Type: application/json');
 $usuario = new UsuarioModel();
 $mail = new PHPMailer(true);
 
-  
-
-
-
-
-
-
-
 try {
     switch ($_POST["acao"]) {
         case 'ATUALIZAR':
@@ -44,13 +36,14 @@ try {
                 $usuario->setEmailUsuario($novoEmail);
                 $usuario->setDataNascimento($novaDataNasc);
                 $usuario->setSenhaUsuario($novaSenha);
-                var_dump($_POST);
+             
                 $usuario->setImagemUsuario($usuario->salvarImagemUsuario($_POST['nomeFoto']));
   
-        
+                
 
                 UsuarioDao::putUser($idUsuario, $usuario);
                 echo json_encode(['success' => true, 'message' => 'Dados atualizados com sucesso!']);
+                header("Location: ../Perfil/index.php");
             } else {
                 echo json_encode(['success' => false, 'message' => 'Usuário não encontrado.']);
             }

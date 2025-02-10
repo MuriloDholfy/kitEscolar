@@ -6,11 +6,12 @@
     //    }else{
     //      include(__DIR__.'../../components/navBarLogado.php');//aqui é a verificação para ver se o usuario esta off
     //    }
-       if(!isset($_SESSION)) {
+    if (!isset($_SESSION)) {
         session_start();
-        $authUsuario = $_SESSION["authUsuario"];
-        
     }
+    
+    $authUsuario = $_SESSION["authUsuario"] ?? null;
+    
     
 
     require_once (__DIR__.'../../../DAO/ProdutoDAO.php'); 
@@ -44,7 +45,12 @@
 </head>
 <body>
     <!-- Site NavBar -->
-    <?php include('../../components/navBarLogado.php'); ?>
+    <?php   if(isset($_SESSION["authUsuario"])){
+            $authUsuario = $_SESSION["authUsuario"];
+            include('../../components/navBarLogado.php');//aqui é a verificação para ver se o usuario esta online
+          }else{
+            include('../../components/navBar.php');//aqui é a verificação para ver se o usuario esta off
+          } ?> 
 
     <!-- Conteúdo do Site -->
     <section class="hero">
@@ -173,10 +179,10 @@
             <p id="descricaoProduto"></p>
             <p id="precoProduto"></p>
             <!-- Campos ocultos para envio -->
-            <input type="text" name="idProduto" id="produtoId">
-            <input type="text" name="nomeProduto" id="produtoNome">
-            <input type="text" name="precoProduto" id="produtoPreco">
-            <input type="text" name="idUsuario" value="<?= $authUsuario['id'] ?>">
+            <input type="hidden" name="idProduto" id="produtoId">
+            <input type="hidden" name="nomeProduto" id="produtoNome">
+            <input type="hidden" name="precoProduto" id="produtoPreco">
+            <input type="hidden" name="idUsuario" value="<?= $authUsuario['id']?>">
             <div class="mb-3">
               <label for="quantidadeProduto" class="form-label">Quantidade</label>
               <input type="number" class="form-control" id="quantidadeProduto" name="quantidadeProduto" value="1" min="1">

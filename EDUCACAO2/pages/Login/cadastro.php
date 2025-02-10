@@ -1,4 +1,9 @@
 <?php
+if (!isset($_SESSION)) {
+    session_start();
+}
+
+$authUsuario = $_SESSION["authUsuario"] ?? null;
 
   if(!empty($_POST)){
     $idUsuario= $userDao['idUsuario'];
@@ -71,8 +76,8 @@
         <div class="card">
             <h2 class="text-center mb-4">Cadastro</h2>
             <form method="post" action="cadastroProcess.php" id="registerForm">
-            <input type="text" name="idUsuario" placeholder="id" value="<?=$idUsuario?>">
-            <input type="text" value="<?=$idUsuario?'ATUALIZAR':'SALVAR'?>" name="acao" >
+            <input type="hidden" name="idUsuario" placeholder="id" value="<?=$idUsuario?>">
+            <input type="hidden" value="<?=$idUsuario?'ATUALIZAR':'SALVAR'?>" name="acao" >
                 <div class="row">
                     <div class="mb-3 col-6">
                         <label for="name" class="form-label">Nome</label>
