@@ -6,7 +6,7 @@ try {
 
     if(!empty($_POST) && isset($_POST)){
          ComandaProdutoDAO::deleteComandaProduto($_POST["idComandaProduto"]);
-         //ComandaDAO::cancelComanda($_POST["idComanda"]);
+         ComandaDAO::deleteComanda($_POST["idComanda"]);
     }
         $response = [
             'success' => true,

@@ -1,7 +1,11 @@
 <?php
        if(!isset($_SESSION)) {
         session_start();
-        $authUsuario = $_SESSION["authUsuario"];  
+        $authUsuario = $_SESSION["authUsuario"];
+        
+    }
+    if(!isset($authUsuario['id'])) {
+        header("location: ../Login/index.php");
     }
 require_once(__DIR__.'/../../DAO/comandaDAO.php');
 require_once(__DIR__.'/../../DAO/produtoDAO.php');

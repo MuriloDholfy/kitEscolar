@@ -4,7 +4,9 @@
     }
     
     $authUsuario = $_SESSION["authUsuario"] ?? null;
-    
+    if($authUsuario == null){
+        header("Location: ../Login/index.php");
+    }
 require_once(__DIR__.'/../../DAO/produtoDAO.php');
 $usuarioId = $_SESSION['authUsuario']['id']; 
 $produtosPendentes = ProdutoDAO::showProdutosPendentes($usuarioId);

@@ -1,66 +1,53 @@
 <?php
-class LogradouroModel {
-    private $idLogradouro, $ruaLogrado, $numeroLogrado, $bairroLogrado, $cidadeLogrado, $estadoLogrado, $cepLogrado;
+class ProdutoModel {
+    private $idProduto, $nomeProduto, $descricaoProduto, $precoProduto, $estoqueProduto, $categoriaProduto;
 
-    // Métodos para idLogradouro
-    public function getIdLogradouro() {
-        return $this->idLogradouro;
+    // Métodos para idProduto
+    public function getIdProduto() {
+        return $this->idProduto;
     }
-    public function setIdLogradouro($idLogradouro) {
-        $this->idLogradouro = $idLogradouro;
-    }
-
-    // Métodos para ruaLogrado
-    public function getRuaLogrado() {
-        return $this->ruaLogrado;
-    }
-    public function setRuaLogrado($ruaLogrado) {
-        $this->ruaLogrado = $ruaLogrado;
+    public function setIdProduto($idProduto) {
+        $this->idProduto = $idProduto;
     }
 
-    // Métodos para numeroLogrado
-    public function getNumeroLogrado() {
-        return $this->numeroLogrado;
+    // Métodos para nomeProduto
+    public function getNomeProduto() {
+        return $this->nomeProduto;
     }
-    public function setNumeroLogrado($numeroLogrado) {
-        $this->numeroLogrado = $numeroLogrado;
-    }
-
-    // Métodos para bairroLogrado
-    public function getBairroLogrado() {
-        return $this->bairroLogrado;
-    }
-    public function setBairroLogrado($bairroLogrado) {
-        $this->bairroLogrado = $bairroLogrado;
+    public function setNomeProduto($nomeProduto) {
+        $this->nomeProduto = $nomeProduto;
     }
 
-    // Métodos para cidadeLogrado
-    public function getCidadeLogrado() {
-        return $this->cidadeLogrado;
+    // Métodos para descricaoProduto
+    public function getDescricaoProduto() {
+        return $this->descricaoProduto;
     }
-    public function setCidadeLogrado($cidadeLogrado) {
-        $this->cidadeLogrado = $cidadeLogrado;
-    }
-
-    // Métodos para estadoLogrado
-    public function getEstadoLogrado() {
-        return $this->estadoLogrado;
-    }
-    public function setEstadoLogrado($estadoLogrado) {
-        $this->estadoLogrado = $estadoLogrado;
+    public function setDescricaoProduto($descricaoProduto) {
+        $this->descricaoProduto = $descricaoProduto;
     }
 
-    // Métodos para cepLogrado
-    public function getCepLogrado() {
-        return $this->cepLogrado;
+    // Métodos para precoProduto
+    public function getPrecoProduto() {
+        return $this->precoProduto;
     }
-    public function setCepLogrado($cepLogrado) {
-        $this->cepLogrado = $cepLogrado;
+    public function setPrecoProduto($precoProduto) {
+        $this->precoProduto = $precoProduto;
     }
 
+    // Métodos para estoqueProduto
+    public function getEstoqueProduto() {
+        return $this->estoqueProduto;
+    }
+    public function setEstoqueProduto($estoqueProduto) {
+        $this->estoqueProduto = $estoqueProduto;
+    }
 
-
-  
-    
+    // Métodos para categoriaProduto
+    public function getCategoriaProduto() {
+        return $this->categoriaProduto;
+    }
+    public function setCategoriaProduto($categoriaProduto) {
+        $this->categoriaProduto = $categoriaProduto;
+    }
 }
 ?>

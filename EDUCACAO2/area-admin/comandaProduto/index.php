@@ -60,7 +60,6 @@
                 <th class="col-md-2 text-center">preco</th>
                 <th class="col-md-2 text-center">preco Total</th>
                 <th class="text-center col-md-1">Alterar</th>
-                <th class="text-center col-md-1">Excluir</th>
               </tr>
               <?php foreach($comandaProdutos as $comanda) { ?>
               <tr>
@@ -78,11 +77,6 @@
                         class="fas fa-edit fa-lg text-secondary"></i>
                     </button>
                   </form>
-                </td>
-                <td class="text-center">
-                  <a class="dropdown-item" onclick="modalRemover(<?=$comanda['idComanda_Produtos']?>,'idDeletar')">
-                    <i class="fas fa-trash-alt fa-lg text-danger"></i>
-                  </a>
                 </td>
               <tr>
                 <?php } ?>

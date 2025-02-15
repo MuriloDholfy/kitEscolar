@@ -6,13 +6,9 @@
   }
   
   $authUsuario = $_SESSION["authUsuario"] ?? null;
-  $produtosViaFooter = $_SESSION['produtos'];
-    if(!isset($_SESSION['produtos'])) {
-    header("location: index.php");
-  }
+  $produtosViaFooter = $_SESSION['produtos'] ?? null;
       
-    $produtos = ProdutoDAO::showAll();  
-  
+  $produtos = ProdutoDAO::showAll();  
     $idProduto = "";
    ?>
 
@@ -103,7 +99,7 @@
         <div class="products">
         <?php if (!empty($produtos)) { ?>
           <?php if (!empty($produtosViaFooter)) { ?>
-              <?php foreach ($produtosViaFooter as $produto) { ?>
+              <?php foreach ($produtosViaFooter as $produto)  { ?>
                   <div class="product-card">
                       <img src="../../img/Produto/<?= !empty($produto["imagemProduto"]) ? $produto["imagemProduto"] : 'padrao.png'; ?>" 
                           alt="<?= htmlspecialchars($produto['nomeProduto'], ENT_QUOTES, 'UTF-8') ?>" 
@@ -121,7 +117,7 @@
                   </div>
               <?php } ?>
           <?php } else { ?>
-              <p class="text-center text-muted">Nenhum produto disponível via footer no momento.</p>
+              <p class="text-center text-muted">Nenhum produto disponível no momento.</p>
           <?php } ?>
       <?php } else { ?>
           <p class="text-center text-muted">Nenhum produto disponível no momento.</p>
@@ -233,6 +229,29 @@
           document.getElementById('produtoPreco').value = preco;
       });
 });
+$(document).ready(function(){
+    $("#search_live").keyup(function(){
+        var input = $(this).val().trim();
+
+        if (input === "") {
+            $("#resultadoSearch").html(""); 
+            $("#produtos").show(); // Reexibe a seção original de produtos
+            return;
+        }
+
+        $("#produtos").hide(); // Oculta os produtos do footer quando há pesquisa
+
+        $.ajax({
+            url: "processSearch.php",
+            method: "POST",
+            data: { input: input },
+            success: function(data){
+                $("#resultadoSearch").html(data);
+            }
+        });
+    });
+});
+
     </script>
     
 

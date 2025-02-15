@@ -19,6 +19,10 @@
       <a class="link-dark" href="../Adm" style="text-decoration: none;"><i class="fas fa-key"></i>
       ADM</a>
     </li>
+    <li class="fw-medium my-1">
+      <a class="link-dark" href="../pagamento" style="text-decoration: none;"><i class="fas fa-key"></i>
+      Pagamentos</a>
+    </li>
     
    
   </ul>

@@ -32,7 +32,7 @@
         <nav>
             <ul class="nav">
                 <li class="nav-item"><a href="../Home/" class="nav-link text-dark">Home</a></li>
-                <li class="nav-item"><a href="../Produtos/" class="nav-link text-dark">Produtos</a></li>
+                <li class="nav-item"><a href="../Produtos/totalProdutos.php" class="nav-link text-dark">Produtos</a></li>
                 <li class="nav-item"><a href="../Home/#sobre" class="nav-link text-dark">Sobre Nós</a></li>
                 <li class="nav-item"><a href="https://api.whatsapp.com/send/?phone=5511971233824&text&type=phone_number&app_absent=0" class="nav-link text-dark">Contato</a></li>
                 <!-- Ícone de lupa -->

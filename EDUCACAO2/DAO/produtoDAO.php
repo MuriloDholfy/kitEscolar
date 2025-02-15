@@ -93,7 +93,7 @@ class ProdutoDAO {
                   JOIN tbproduto p ON cp.idProduto = p.idProduto
                   JOIN tbcomanda c ON cp.idComanda = c.idComanda
                   WHERE c.idUsuario = ? 
-                  AND c.statusComanda = 'Em andamento'";
+                  AND   c.statusComanda = 'Ainda não optou por pagar'";
         $stmt = $conexao->prepare($query);
         $stmt->bindValue(1, $usuarioId, PDO::PARAM_INT);
         $stmt->execute();

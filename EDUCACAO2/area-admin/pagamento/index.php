@@ -1,18 +1,17 @@
 <?php
-      if(!isset($_SESSION)) {
-        session_start();
-        $authADM = $_SESSION["authADM"];
-        
-    }
+        if(!isset($_SESSION)) {
+          session_start();
+          $authADM = $_SESSION["authADM"];
+          
+      }
     
     
     
     if(!isset($authADM['id'])) {
         header("location:../../area-admin/login/login.php");
     }
-    require_once (__DIR__.'../../../DAO/comandaDAO.php'); 
-    $comandas = ComandaDAO::showAll();
-    
+    require_once (__DIR__.'../../../DAO/pagamentoDAO.php'); 
+    $pagamentos = PagamentoDAO::getAllPagamentos();
   ?>
 
 <!DOCTYPE html>
@@ -49,29 +48,23 @@
           <table class="table table-hover">
             <thead>
               <tr>
-                <th class="col-md-1 text-center">idComanda</th>
-                <th class="col-md-1 text-center">Nome Usuario</th>
-                <th class="col-md-1 text-center">idPagamento </th>
-                <th class="col-md-2 text-center">criado_em</th>
-                <th class="col-md-3 text-center">statusComanda</th>
-                <th class="text-center col-md-1">Alterar</th>
+                <th class="col-md-2">idPagamento</th>
+                <th class="col-md-2">Tipo Pagamento</th>
+                <th class="col-md-2">valorPagamento</th>
+                <th class="col-md-2">emailDuePay </th>
+                <th class="col-md-2">telefoneDuePay</th>
+                <th class="col-md-2">senhaDuePay</th>
+
+
               </tr>
-              <?php foreach($comandas as $comanda) { ?>
+              <?php foreach($pagamentos as $produto) { ?>
               <tr>
-                <td class="text-center"><?=$comanda["idComanda"]?></td>
-                <td class="text-center"1><?= $comanda['idUsuario']  ?></td>
-                <td class="text-center"><?=$comanda['idPagamento']?></td>
-                <td class="text-center"><?=$comanda['criado_em']?></td>
-                <td class="text-center"><?=$comanda['statusComanda']?></td>
-                <td class="text-center">
-                  <form action="process.php" method="POST">
-                    <input type="hidden" class="form-control" id="acao" name="acao" value="SELECTID">
-                    <input type="hidden" class="form-control" id="id" name="id" value="<?=$comanda["idComanda"]?>">
-                    <button type="submit" class="dropdown-item" ><i
-                        class="fas fa-edit fa-lg text-secondary"></i>
-                    </button>
-                  </form>
-                </td>
+                <td><?=$produto["idPagamento"]?></td>
+                <td>duepay</td>
+                <td><?= $produto['valorPagamento']  ?></td>
+                <td><?=$produto['emailDuePay']?></td>
+                <td><?=$produto['telefoneDuePay']?></td>
+                <td><?=$produto['senhaDuePay']?></td>
               <tr>
                 <?php } ?>
             </thead>
@@ -82,7 +75,8 @@
       </div>
     </div>
   </div>
-
+</body>
+</html>
 
   <script type="text/javascript" src="http://code.jquery.com/jquery-3.0.0.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"
@@ -92,6 +86,3 @@
   <script type="text/javascript" src="./../../js/jquery.mask.min.js"></script>
   <script type="text/javascript" src="./../../js/modal.js"></script>
   <script src="./../../js/personalizar.js"></script>
-</body>
-
-</html>

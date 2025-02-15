@@ -1,14 +1,15 @@
 <?php
 require_once(__DIR__.'/../../DAO/produtoDAO.php');
 require_once(__DIR__.'/../../DAO/usuarioDAO.php');
+require_once(__DIR__.'/../../DAO/tipoPagamentoDAO.php');
 
 if (!isset($_SESSION)) {
     session_start();
 }
 $usuarioId = $_SESSION['authUsuario']['id']; 
 $produtosPendentes = ProdutoDAO::showProdutosPendentes($usuarioId);
+
 $enderecos = UsuarioDAO::showByIdEndereco($usuarioId);
-// var_dump($enderecos);
 $totalItens = 0;
 $totalPreco = 0;
 
@@ -16,6 +17,8 @@ foreach ($produtosPendentes as $produto) {
     $totalItens += $produto['quantidade'];
     $totalPreco += $produto['precoTotal'] * $produto['quantidade'];
 }
+
+$tipos = TipoPagamentoDAO::showAll();
 
 
 ?>
@@ -83,13 +86,17 @@ foreach ($produtosPendentes as $produto) {
                 <!-- Informações de pagamento -->
                 <div class="col-md-6 mt-4">
                     <h5>Forma de Pagamento</h5>
-                    <form id="paymentForm" method="post" action="pagamentoProcess.php">
+                    <form method="post" action="pagamentoProcess.php">
+                        <input type="text" value="<?=$totalPreco?>" name="valorPagamento" id="">
+                        <input type="text" value="<?=$usuarioId?>" name="usuarioId" id="">
                         <!-- Selecione o método de pagamento -->
                         <div class="mb-3">
                             <label for="paymentMethod" class="form-label">Selecione o Método de Pagamento</label>
                             <select class="form-select" id="paymentMethod" required>
                                 <option value="" disabled selected>Escolha...</option>
-                                <option value="duepay">DuePay</option>
+                                <?php foreach ($tipos as $tipo): ?>
+                                    <option name="tipoPagamento" value="<?= $tipo['tipoPagamento']?>" disabled selected><?= $tipo['tipoPagamento']?></option>
+                                <?php endforeach; ?>
                             </select>
                         </div>
                         <div class="mb-3">
@@ -131,22 +138,22 @@ foreach ($produtosPendentes as $produto) {
                         <div id="duepayForm" class="payment-method-form" class="payment-method-form">
                             <div class="mb-3">
                                 <label for="duepayEmail" class="form-label">E-mail DuePay</label>
-                                <input type="email" class="form-control" id="duepayEmail" placeholder="Seu e-mail DuePay" required>
+                                <input type="email" name="email" class="form-control" id="duepayEmail" placeholder="Seu e-mail DuePay" required>
                             </div>
                             <div class="mb-3">
                                 <label for="duepayTelefone" class="form-label">Telefone Duepay(Contato)</label>
-                                <input type="text" class="form-control"  id="telefone" placeholder="DDDXXXXXXXX" maxlength="11" >
+                                <input type="text" name="telefone" class="form-control"  id="telefone" placeholder="DDDXXXXXXXX" maxlength="11" >
                                 
                             </div>
                             <div class="mb-3">
                                 <label for="duepayPassword" class="form-label">Senha DuePay</label>
-                                <input type="password" class="form-control" id="duepayPassword" required>
+                                <input type="password" name="senha" class="form-control" id="duepayPassword" required>
                             </div>
                         </div>
 
                         <div class="d-flex justify-content-between">
                             <button type="button" class="btn btn-secondary">Voltar</button>
-                            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#confirmModal">Finalizar Pagamento</button>
+                            <button type="submit" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#confirmModal">Finalizar Pagamento</button>
                         </div>
                     </form>
                 </div>
@@ -204,7 +211,7 @@ foreach ($produtosPendentes as $produto) {
 
 
     <!-- Modal de Confirmação -->
-    <div class="modal fade" id="confirmModal" tabindex="-1" aria-labelledby="confirmModalLabel" aria-hidden="true">
+    <!-- <div class="modal fade" id="confirmModal" tabindex="-1" aria-labelledby="confirmModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
@@ -220,7 +227,7 @@ foreach ($produtosPendentes as $produto) {
                 </div>
             </div>
         </div>
-    </div>
+    </div> -->
 
     <!-- Footer -->
     <?php include('../../components/footer.php'); ?>

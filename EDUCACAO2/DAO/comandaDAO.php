@@ -42,6 +42,14 @@ class ComandaDAO {
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
+    public static function showByIdUseridComanda($id) {
+        $conexao = Conexao::conexaoBanco_de_Dados();
+        $query = "SELECT idComanda FROM tbComanda WHERE idUsuario = ?";
+        $stmt = $conexao->prepare($query);
+        $stmt->bindValue(1, $id);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
 
     public static function showAll() {
         $conexao = Conexao::conexaoBanco_de_Dados();
@@ -79,6 +87,25 @@ JOIN tbusuario u ON c.idUsuario = u.idUsuario;
             throw new Exception("Erro ao atualizar a comanda: " . implode(", ", $stmt->errorInfo()));
         }
     }
+    public static function updateComandaNoId($id, $comanda) {
+        $conexao = Conexao::conexaoBanco_de_Dados();
+        $query = "UPDATE tbComanda SET 
+                    idPagamento = ?, 
+                    statusComanda = ? 
+                  WHERE idComanda = ?";
+        $stmt = $conexao->prepare($query);
+        $stmt->bindValue(1, $comanda->getIdPagamento());
+        $stmt->bindValue(2, $comanda->getStatusComanda());
+        $stmt->bindValue(3, $id);
+    
+        if ($stmt->execute()) {
+       
+            return true;
+        } else {
+           
+            return false;
+        }
+    }
 
     public static function cancelComanda($id) {
         $conexao = Conexao::conexaoBanco_de_Dados();
@@ -93,6 +120,18 @@ JOIN tbusuario u ON c.idUsuario = u.idUsuario;
             return true;
         } else {
             throw new Exception("Erro ao deletar a comanda: " . implode(", ", $stmt->errorInfo()));
+        }
+    }
+    public static function deleteComanda($id) {
+        $conexao = Conexao::conexaoBanco_de_Dados();
+        $query = "DELETE FROM tbComanda WHERE idComanda = ?";
+        $stmt = $conexao->prepare($query);
+        $stmt->bindValue(1, $id);
+
+        if ($stmt->execute()) {
+            return true;
+        } else {
+            throw new Exception("Erro ao deletar a comandaProduto: " . implode(", ", $stmt->errorInfo()));
         }
     }
 }

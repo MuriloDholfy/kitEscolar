@@ -113,6 +113,7 @@ JOIN tbproduto p ON cp.idProduto = p.idProduto;
             throw new Exception("Erro ao deletar a comandaProduto: " . implode(", ", $stmt->errorInfo()));
         }
     }
+    
 }
 
 ?>

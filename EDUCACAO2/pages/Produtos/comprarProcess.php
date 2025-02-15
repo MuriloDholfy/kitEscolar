@@ -13,7 +13,7 @@ $comandaProduto = new ComandaProdutoModel();
 try {
     
     $comanda->setIdUsuario($_POST['idUsuario']);
-    $comanda->setStatusComanda("Em andamento");
+    $comanda->setStatusComanda("Ainda não optou por pagar");
     $comanda->setCriadoEm(date('Y-m-d H:i:s'));
     $idComanda = ComandaDAO::createComanda($comanda);
 
