@@ -1,9 +1,8 @@
 <?php 
 session_start();
-if (!isset($_SESSION['idUsuario'])) {
-    echo "ID do usuário não encontrado. Tente novamente.";
-    exit;
-}
+$idUsuario = $_SESSION['idUsuario'] ;
+var_dump($_SESSION);
+var_dump($idUsuario);
 ?>
 
 
@@ -92,6 +91,7 @@ if (!isset($_SESSION['idUsuario'])) {
                     <form method="POST" action="codigoEsqueceuSenhaProcess.php" id="codeForm">
                         <div class="mb-3 col-6">
                             <label for="verificationCode" class="form-label">Código de Verificação</label>
+                            <input type="text" name="idUsuario" value="<?= $_SESSION['idUsuario']?>">
                             <input type="number" class="form-control" name="codigoVerificacaoUsuario" id="verificationCode" placeholder="Digite o código enviado" required>
                         </div>
                         <div class="d-grid">

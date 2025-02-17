@@ -1,6 +1,6 @@
 <?php
 class ProdutoModel {
-    private $idProduto, $nomeProduto, $descricaoProduto, $precoProduto, $estoqueProduto, $categoriaProduto;
+    private $idProduto, $nomeProduto, $descricaoProduto, $precoProduto, $estoqueProduto,$imagemProduto;
 
     // Métodos para idProduto
     public function getIdProduto() {
@@ -41,13 +41,38 @@ class ProdutoModel {
     public function setEstoqueProduto($estoqueProduto) {
         $this->estoqueProduto = $estoqueProduto;
     }
-
-    // Métodos para categoriaProduto
-    public function getCategoriaProduto() {
-        return $this->categoriaProduto;
+    public function getImagemProduto() {
+        return $this->imagemProduto;
     }
-    public function setCategoriaProduto($categoriaProduto) {
-        $this->categoriaProduto = $categoriaProduto;
+
+    public function setImagemProduto($imagemProduto) {
+        $this->imagemProduto = $imagemProduto;
+    }
+
+    public function salvarImagemProduto($novo_nome){
+        var_dump($_FILES);
+    
+        if($_FILES['fotoProduto']['size'] > 0){
+    
+            // Gerar um nome único caso $novo_nome esteja vazio
+            if($novo_nome == ""){
+                $extensao = pathinfo($_FILES['fotoProduto']['name'], PATHINFO_EXTENSION);
+                if (empty($extensao)) {
+                    $extensao = 'jpg'; // Defina um valor padrão caso a extensão não seja detectada
+                }
+                $novo_nome = md5(time()).".".$extensao;
+            }
+    
+            $diretorio = "../../img/Produto/";
+            $nomeCompleto = $diretorio.$novo_nome;
+    
+            // Mover o arquivo para o diretório desejado
+            move_uploaded_file($_FILES['fotoProduto']['tmp_name'], $nomeCompleto);
+            return $novo_nome;
+    
+        } else {
+            return $novo_nome;
+        }
     }
 }
 ?>

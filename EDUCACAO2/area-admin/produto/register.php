@@ -53,7 +53,7 @@ session_start();
             <div class="card-header">
               <strong>INFORMAÇÕES DO USUÁRIO</strong>
               <input type="text" name="idUser" id="idUser" placeholder="id" value="<?=$idProduto?>">
-              <input type="text" name="nomeFoto" id="nomeFoto" placeholder="nome foto" value="<?=$imagemProduto?>">
+              <input type="text" name="nomeFoto" id=" " placeholder="nome foto" value="<?=$imagemProduto?>">
               <input type="text" value="<?=$idProduto?'ATUALIZAR':'SALVAR'?>" name="acao" >
 
             </div>

@@ -21,7 +21,7 @@ require_once(__DIR__ . '/../../dao/esqueceuSenhaDAO.php');
     $email = $_POST['emailUsuario'];
     $user = UsuarioDAO::getUserByEmail($email);
     $idUsuario = $user[0]['idUsuario'];
-    var_dump($idUsuario);
+
     if(isset($idUsuario)){
         $esqueceuSenha->setIdUsuario($idUsuario);
         $novoCodigo = rand(1000, 9999);
@@ -58,11 +58,9 @@ require_once(__DIR__ . '/../../dao/esqueceuSenhaDAO.php');
             'message' => 'Cadastro realizado com sucesso! Verifique seu e-mail.'
         ];
         session_start();
-            $_SESSION['idUsuario'] = $idUsuario;
-            header("Location: modalCodigoEsqueceuSenha.php");
-            exit;
-
-       
+        $_SESSION['idUsuario'] = $idUsuario;
+        session_write_close(); // Garante que a sessão seja escrita antes da redireção
+        header("Location: modalCodigoEsqueceuSenha.php");
         exit;
     } else {
         throw new Exception('Erro ao salvar o usuário.');

@@ -154,6 +154,29 @@
             throw new Exception("Erro no método putCheckEmail: " . $e->getMessage());
         }
         }
+        public static function putSenha($novaSenha,$idUsuario){
+            try{
+             //realiza a conexão com banco de dados 
+             $conexao = Conexao::conexaoBanco_de_Dados();
+             //QUErty do banco de dados sendo preparads para ser executado no banco
+             $query = "UPDATE tbUsuario SET
+              senhaUsuario = ?
+              WHERE idUsuario = ?";
+             $stmt = $conexao->prepare($query);
+             //valores sendo vinculados aos parametros nas cosnsultas 
+             $stmt ->bindValue(1,$novaSenha);
+             $stmt ->bindValue(2,$idUsuario);
+             if ($stmt->execute()) {
+                 return true; // Sucesso ao atualizar o registro
+             } else {
+                 // Lança uma exceção caso ocorra algum erro na execução
+                 throw new Exception("Erro ao atualizar a senha usuário: " . implode(", ", $stmt->errorInfo()));
+             }
+         } catch (Exception $e) {
+             // Trata e relança a exceção para ser manipulada fora do método
+             throw new Exception("Erro no método putSenha: " . $e->getMessage());
+         }
+         }
         public static function showByIdEndereco($id){
             // Realiza a conexão com o banco de dados
             $conexao = Conexao::conexaoBanco_de_Dados();

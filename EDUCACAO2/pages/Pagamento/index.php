@@ -87,8 +87,8 @@ $tipos = TipoPagamentoDAO::showAll();
                 <div class="col-md-6 mt-4">
                     <h5>Forma de Pagamento</h5>
                     <form method="post" action="pagamentoProcess.php">
-                        <input type="text" value="<?=$totalPreco?>" name="valorPagamento" id="">
-                        <input type="text" value="<?=$usuarioId?>" name="usuarioId" id="">
+                        <input type="hidden" value="<?=$totalPreco?>" name="valorPagamento" id="">
+                        <input type="hidden" value="<?=$usuarioId?>" name="usuarioId" id="">
                         <!-- Selecione o método de pagamento -->
                         <div class="mb-3">
                             <label for="paymentMethod" class="form-label">Selecione o Método de Pagamento</label>

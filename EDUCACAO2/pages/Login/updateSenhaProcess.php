@@ -1,4 +1,5 @@
 <?php
+ 
   
     require_once(__DIR__.'/../../model/conexao.php');
     require_once(__DIR__ . '/../../model/usuarioModel.php');
@@ -7,9 +8,11 @@
     require_once(__DIR__ . '/../../dao/esqueceuSenhaDAO.php');
          
     
+    var_dump($_POST);
     session_start();
-    
-    $idUsuario = $_SESSION['idUsuario']; 
+    $idUsuario = $_SESSION['idUsuario'] ;
+    var_dump($_SESSION);
+    var_dump($idUsuario);
 
 
     $usuarioModel = new UsuarioModel();
@@ -17,35 +20,23 @@
     $esqueceuSenhaDAO = new EsqueceuSenhaDAO();
     
     $getCodigoCorreto = $esqueceuSenhaDAO->getByCodigo($idUsuario);
-
-    $codigoUsuarioPost = (int) $_POST['codigoVerificacaoUsuario'];
-    $codigoCorreto = (int) $getCodigoCorreto['codigoSenhaReset'];
-
-
-
-    var_dump($codigoUsuarioPost);
-    
-    var_dump($getCodigoCorreto);
-    if($codigoUsuarioPost == $codigoCorreto) {
-
         try {
-            header("Location: redefinirSenha.php");
+            
+        if($_POST['senhaUsuario'] === $_POST['cSenhaUsuario']){
+            $novaSenha = $_POST['senhaUsuario'];
+            if (UsuarioDAO::putSenha( $novaSenha, $idUsuario)) {
+                echo "Email verificado com sucesso!";
+                header("Location: index.php");
+            } else {
+                echo "Senha não são iguais";
+            }
+        }
 
          } catch (Exception $e) {
-            echo "Código de verificação inválido!";
-            //header("Location: index.php");
+            // echo "Código de verificação inválido!";
+            header("Location: index.php");
             unset($_SESSION['idUsuario']);
             session_destroy();
              echo "Erro: " . $e->getMessage();
          }
-    
-        // Limpa a sessão
-    } else {
-        echo "Código de verificação inválido!";
-        header("Location: index.php");
-        unset($_SESSION['idUsuario']);
-        session_destroy();
-    }
-
-    
 ?>

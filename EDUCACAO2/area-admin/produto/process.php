@@ -19,13 +19,13 @@
     //pode validar as informações
    
     $produto->setNomeProduto($_POST['nomeProduto']);
-    $produto->setQtdProduto($_POST['qtdProduto']);
-    $produto->setValorProduto($_POST['valorProduto']);
+    $produto->setEstoqueProduto($_POST['qtdProduto']);
+    $produto->setPrecoProduto($_POST['valorProduto']);
     $produto->setDescricaoProduto($_POST['descProduto']);
     $produto->setImagemProduto($produto->salvarImagemProduto($_POST['nomeFoto'])); 
     try {
         $produtoDAO = ProdutoDAO::createProduto($produto);
-      // header("Location: index.php");
+       header("Location: index.php");
     } catch (Exception $e) {
      echo 'Exceção capturada: ',  $e->getMessage(), "\n";
       // header("Location: register.php");
@@ -36,10 +36,10 @@
 
   case 'ATUALIZAR':
         //pode validar as informações
-        $produto->setNomeProduto($_POST['nome']);
-        $produto->setQtdProduto($_POST['sobrenome']);
-        $produto->setValorProduto($_POST['cpf']);
-        $produto->setDescricaoProduto($_POST['nasc']);
+        $produto->setNomeProduto($_POST['nomeProduto']);
+        $produto->setEstoqueProduto($_POST['qtdProduto']);
+        $produto->setPrecoProduto($_POST['valorProduto']);
+        $produto->setDescricaoProduto($_POST['descProduto']);
         $produto->setImagemProduto($produto->salvarImagemProduto($_POST['nomeFoto'])); 
         try {
           $userDao = ProdutoDAO::updateProduto($_POST["idUser"], $produto);

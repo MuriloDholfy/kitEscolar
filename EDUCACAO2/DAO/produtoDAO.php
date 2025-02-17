@@ -19,8 +19,8 @@ class ProdutoDAO {
         $stmt = $conexao->prepare($query);
         $stmt->bindValue(1, $produto->getNomeProduto());
         $stmt->bindValue(2, $produto->getDescricaoProduto());
-        $stmt->bindValue(3, $produto->getValorProduto());
-        $stmt->bindValue(4, $produto->getQtdProduto());
+        $stmt->bindValue(3, $produto->getPrecoProduto());
+        $stmt->bindValue(4, $produto->getEstoqueProduto());
         $stmt->bindValue(5, $produto->getImagemProduto());
 
         if ($stmt->execute()) {
@@ -38,6 +38,16 @@ class ProdutoDAO {
         $stmt->bindValue(1, $id);
         $stmt->execute();
         return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
+    public static function showByIdQuantidade($id) {
+        $conexao = Conexao::conexaoBanco_de_Dados();
+        $query = "SELECT quantidadeProduto FROM tbProduto WHERE idProduto = ?";
+        $stmt = $conexao->prepare($query);
+        $stmt->bindValue(1, $id, PDO::PARAM_INT); 
+        $stmt->execute();
+        
+        return $stmt->fetchColumn(); 
+
     }
 
     // Mostrar todos os produtos
@@ -63,7 +73,7 @@ class ProdutoDAO {
         $stmt->bindValue(1, $produto->getNomeProduto());
         $stmt->bindValue(2, $produto->getDescricaoProduto());
         $stmt->bindValue(3, $produto->getValorProduto());
-        $stmt->bindValue(4, $produto->getQtdProduto());
+        $stmt->bindValue(4, $produto->getEstoqueProduto());
         $stmt->bindValue(5, $produto->getImagemProduto());
         $stmt->bindValue(6, $id);
 
@@ -111,7 +121,17 @@ class ProdutoDAO {
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
-    
+    public static function updateqtdProduto($novaQtd, $idProduto) {
+        $conexao = Conexao::conexaoBanco_de_Dados();
+        $query = "UPDATE tbProduto SET
+                    quantidadeProduto = ?
+                  WHERE idProduto = ?";
+        $stmt = $conexao->prepare($query);
+        $stmt->bindValue(1, $novaQtd);
+        $stmt->bindValue(2, $idProduto);
+
+        return $stmt->execute();
+    }
 }
 
 

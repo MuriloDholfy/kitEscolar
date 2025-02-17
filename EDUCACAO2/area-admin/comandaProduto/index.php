@@ -53,13 +53,12 @@
           <table class="table table-hover">
             <thead>
               <tr>
-                <th class="col-md-1 text-center">idComanda</th>
-                <th class="col-md-1 text-center">idComanda</th>
-                <th class="col-md-3 text-center">Nome Produto </th>
-                <th class="col-md-1 text-center">quantidade</th>
+                <th class="col-md-2 text-center">idComanda</th>
+                <th class="col-md-2 text-center">idComanda</th>
+                <th class="col-md-2 text-center">Nome Produto </th>
+                <th class="col-md-2 text-center">quantidade</th>
                 <th class="col-md-2 text-center">preco</th>
                 <th class="col-md-2 text-center">preco Total</th>
-                <th class="text-center col-md-1">Alterar</th>
               </tr>
               <?php foreach($comandaProdutos as $comanda) { ?>
               <tr>
@@ -69,15 +68,6 @@
                 <td class="text-center"><?=$comanda['quantidade']?></td>
                 <td class="text-center"><?=$comanda['preco']?></td>
                 <td class="text-center"><?=$comanda['precoTotal']?></td>
-                <td class="text-center">
-                  <form action="process.php" method="POST">
-                    <input type="hidden" class="form-control" id="acao" name="acao" value="SELECTID">
-                    <input type="text" class="form-control" id="id" name="id" value="<?=$comanda["idComanda_Produtos"]?>">
-                    <button type="submit" class="dropdown-item" ><i
-                        class="fas fa-edit fa-lg text-secondary"></i>
-                    </button>
-                  </form>
-                </td>
               <tr>
                 <?php } ?>
             </thead>

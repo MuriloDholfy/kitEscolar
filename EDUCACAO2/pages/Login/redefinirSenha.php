@@ -1,4 +1,10 @@
+<?php 
+    
+    $authUsuario = $_SESSION["authUsuario"] ?? null;
+    session_start();
+    $idUsuario = $_SESSION['idUsuario'] ;
 
+?>
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
@@ -64,20 +70,17 @@
     <section class="login">
         <div class="card">
             <h2 class="text-center mb-4">Redefinir Senha</h2>
-            <form method="POST" action="loginProcess.php">
+            <form method="POST" action="updateSenhaProcess.php">
                 <div class="row">
-                    <div class="mb-3 col-6">
-                        <label for="password" class="form-label">Senha</label>
-                        <input type="password" class="form-control" id="password" name="senhaUsuario" placeholder="Digite sua senha" required>
-                    </div>
-                    <div class="mb-3 col-6">
+                <input type="hidden" name="idUsuario" value="<?= $idUsuario?>">
+                    <div class="mb-3 col-12">
                         <label for="password" class="form-label">Nova Senha</label>
                         <input type="password" class="form-control" id="password" name="senhaUsuario" placeholder="Digite sua senha" required>
                     </div>
                 </div>
                 <div class="mb-3">
                     <label for="password" class="form-label">Confirmar Nova Senha</label>
-                    <input type="password" class="form-control" id="password" name="senhaUsuario" placeholder="Digite sua nova senha" required>
+                    <input type="password" class="form-control" id="password" name="cSenhaUsuario" placeholder="Digite sua nova senha" required>
                 </div>
                 <div class="d-grid">
                     <button type="submit" class="btn btn-primary">Entrar</button>

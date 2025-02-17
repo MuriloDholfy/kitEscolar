@@ -50,10 +50,10 @@
           </div>
         </div>
         <div class=" row">
-          <table class="table table-hover">
+          <table class="table table-hover" style="border-spacing: 10px; border-collapse: separate;">
             <thead>
               <tr>
-                <th class="col-md-1">ID</th>
+                <th class="col-md-1 ">ID</th>
                 <th class="col-md-1">nomeProduto</th>
                 <th class="col-md-1">quantidadeProduto </th>
                 <th class="col-md-2">valorProduto</th>
@@ -63,15 +63,15 @@
               </tr>
               <?php foreach($produtos as $produto) { ?>
               <tr>
-                <td><?=$produto["idProduto"]?></td>
-                <td><?= $produto['nomeProduto']  ?></td>
-                <td><?=$produto['quantidadeProduto']?></td>
-                <td><?=$produto['valorProduto']?></td>
-                <td><?=$produto['descricaoProduto']?></td>
-                <td class="text-center">
+                <td class="px-4 py-2"><?=$produto["idProduto"]?></td>
+                <td class="px-4 py-2"><?= $produto['nomeProduto']  ?></td>
+                <td class="px-4 py-2"><?=$produto['quantidadeProduto']?></td>
+                <td class="px-4 py-2"><?=$produto['valorProduto']?></td>
+                <td class="px-4 py-2"><?=$produto['descricaoProduto']?></td>
+                <td  class=" px-4 py-2 text-center">
                   <form action="process.php" method="POST">
                     <input type="hidden" class="form-control" id="acao" name="acao" value="SELECTID">
-                    <input type="text" class="form-control" id="id" name="id" value="<?=$produto["idProduto"]?>">
+                    <input type="hidden" class="form-control" id="id" name="id" value="<?=$produto["idProduto"]?>">
                     <button type="submit" class="dropdown-item" ><i
                         class="fas fa-edit fa-lg text-secondary"></i>
                     </button>
@@ -92,7 +92,6 @@
       </div>
     </div>
   </div>
-
   <div class="modal fade" id="modalExcluir" role="dialog">
     <div class=" modal-dialog modal-dialog-centered">
       <div class="modal-content">
@@ -124,7 +123,7 @@
   <!-- Para usar Mascara  -->
   <script type="text/javascript" src="./../../js/jquery.mask.min.js"></script>
   <script type="text/javascript" src="./../../js/modal.js"></script>
-  <script src="./../../js/personalizar.js"></script>
+  <script src="./../../script/personalizar.js"></script>
 </body>
 
 </html>

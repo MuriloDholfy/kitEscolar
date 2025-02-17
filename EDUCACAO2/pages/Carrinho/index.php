@@ -75,7 +75,8 @@ $frete = 20;
                                 <tbody>
                                     <!-- Exemplo de Item no Carrinho -->
                                      
-                                   <?php foreach($produtosPendentes as $produto){ ?>
+                                   <?php if(!empty($produtosPendentes)){
+                                   foreach($produtosPendentes as $produto){ ?>
                                    <tr>
                                         <td>
                                             <div class="d-flex align-items-center">
@@ -101,10 +102,18 @@ $frete = 20;
                                             </form>
                                         </td>
                                     </tr>
-                                    <?php } ?>
+                                    <?php } } ?>
                                     <!-- Fim do Exemplo de Item no Carrinho -->
                                 </tbody>
                             </table>
+                                    <?php if(empty($produtosPendentes)) { ?>
+                                    <tr>
+                                     <td>
+                                         <p class="text-center text-muted">Nenhum produto disponível no momento.</p>
+                                     </td>
+                                    </tr>
+                                 <?php }
+                                 ?>
                         </div>
                     </div>
                 </div>

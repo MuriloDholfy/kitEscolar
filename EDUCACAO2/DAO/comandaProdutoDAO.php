@@ -49,6 +49,33 @@ class ComandaProdutoDAO {
         
         return $stmt->fetchAll(PDO::FETCH_ASSOC); 
     }
+
+    public static function getIdProduto($id) {
+        $conexao = Conexao::conexaoBanco_de_Dados();
+        $query = "SELECT 
+           idProduto
+        FROM tbcomandaproduto
+        WHERE idComanda = ?";  
+        
+        $stmt = $conexao->prepare($query);
+        $stmt->bindValue(1, $id, PDO::PARAM_INT); 
+        $stmt->execute();
+        
+        return $stmt->fetchColumn(); 
+    }
+    public static function getQtdProduto($id) {
+        $conexao = Conexao::conexaoBanco_de_Dados();
+        $query = "SELECT 
+           quantidade
+        FROM tbcomandaproduto
+        WHERE idComanda = ?";  
+        
+        $stmt = $conexao->prepare($query);
+        $stmt->bindValue(1, $id, PDO::PARAM_INT); 
+        $stmt->execute();
+        
+        return $stmt->fetchAll(PDO::FETCH_ASSOC); 
+    }
     
 
     public static function showAllByComanda($idComanda) {
