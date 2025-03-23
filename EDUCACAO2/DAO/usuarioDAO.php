@@ -14,23 +14,43 @@
         
 
 
-        public static function createUser($usuario){
-            //realiza a conexão com banco de dados 
-            $conexao = Conexao::conexaoBanco_de_Dados();
-            //QUErty do banco de dados sendo preparads para ser executado no banco
-            $query = "INSERT INTO tbUsuario(nomeUsuario,emailUsuario,senhaUsuario) values(?,?,?)";
-            $stmt = $conexao->prepare($query);
-            //valores sendo vinculados aos parametros nas cosnsultas 
-            $stmt ->bindValue(1,$usuario->getNomeUsuario());
-            $stmt ->bindValue(2,$usuario->getEmailUsuario());
-            $stmt ->bindValue(3,$usuario->getSenhaUsuario());
-            if ($stmt->execute()) {
-                return $conexao->lastInsertId();
-            }else{
-                 throw new Exception("Erro ao inserir usuário: " . implode(", ", $stmt->errorInfo()));
+      
+            public static function createUser($usuario) {
+                try {
+                    // Realiza a conexão com o banco de dados
+                    $conexao = Conexao::conexaoBanco_de_Dados();
+                    
+                    // Query do banco de dados sendo preparada para ser executada
+                    $query = "INSERT INTO tbUsuario (nomeUsuario, emailUsuario, senhaUsuario) VALUES (?, ?, ?)";
+                    $stmt = $conexao->prepare($query);
+                    
+                    // Vincula os valores aos parâmetros na consulta
+                    $stmt->bindValue(1, $usuario->getNomeUsuario());
+                    $stmt->bindValue(2, $usuario->getEmailUsuario());
+                    $stmt->bindValue(3, $usuario->getSenhaUsuario());
+                    
+                    // Executa a query e verifica se foi bem-sucedida
+                    if ($stmt->execute()) {
+                        return $conexao->lastInsertId(); // Retorna o ID do novo usuário
+                    } else {
+                        throw new Exception("Erro ao executar a consulta no banco de dados.");
+                    }
+                } catch (PDOException $e) {
+                    // Captura o erro de chave duplicada (violação de restrição UNIQUE)
+                    session_start();
+                    if ($e->getCode() == 23000) { // Código de erro de chave duplicada
+                        
+                       $_SESSION['erro'] = "O e-mail informado já está em uso. Tente outro.";
+                       header("Location: cadastro.php");
+                         exit;
+                    } else {
+                        // Caso seja outro erro, exibe a mensagem específica
+                        $_SESSION['erro'] = "Erro ao tentar cadastrar o usuario";
+                       header("Location: cadastro.php");
+                         exit;
+                    }
+                }
             }
-             
-        }
 
         public static function showById($id){
             //realiza a conexão com banco de dados 

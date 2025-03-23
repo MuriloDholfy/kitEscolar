@@ -3,6 +3,9 @@ require_once(__DIR__ . '/../../dao/logradoroDAO.php');
 require_once(__DIR__ . '/../../dao/usuarioDAO.php');
 require_once(__DIR__ . '/../../model/logradoroModel.php');
 
+require_once $_SERVER['DOCUMENT_ROOT'] . '/DAO/logradoroDAO.php';
+require_once $_SERVER['DOCUMENT_ROOT'] . '/DAO/usuarioDAO.php';
+require_once $_SERVER['DOCUMENT_ROOT'] . '/model/logradoroModel.php';
 try {
 var_dump($_POST);
 if (!empty($_POST)) {

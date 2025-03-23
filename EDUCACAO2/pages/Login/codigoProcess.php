@@ -10,6 +10,12 @@
     require_once(__DIR__ . '/../../dao/usuarioDao.php');
     require_once(__DIR__ . '/../../dao/emailDAO.php');
     
+    require_once $_SERVER['DOCUMENT_ROOT'] . '/model/conexao.php';
+    require_once $_SERVER['DOCUMENT_ROOT'] . '/model/usuarioModel.php';
+    require_once $_SERVER['DOCUMENT_ROOT'] . '/model/emailModel.php';
+    require_once $_SERVER['DOCUMENT_ROOT'] . '/DAO/usuarioDao.php';
+    require_once $_SERVER['DOCUMENT_ROOT'] . '/DAO/emailDAO.php';
+
     
     
     $idUsuario = $_SESSION['idUsuario']; 

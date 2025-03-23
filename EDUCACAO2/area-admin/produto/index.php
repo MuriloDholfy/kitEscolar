@@ -8,11 +8,10 @@
     
     
     if(!isset($authADM['id'])) {
-        header("location:../../area-admin/login/login.php");
+        header("location: ../../area-admin/login/login.php");
     }
     require_once (__DIR__.'../../../DAO/ProdutoDAO.php'); 
     $produtos = ProdutoDAO::showAll();
-    // var_dump($users);
   ?>
 
 <!DOCTYPE html>
@@ -64,7 +63,7 @@
               <?php foreach($produtos as $produto) { ?>
               <tr>
                 <td class="px-4 py-2"><?=$produto["idProduto"]?></td>
-                <td class="px-4 py-2"><?= $produto['nomeProduto']  ?></td>
+                <td class="px-4 py-2"><?= $produto['nomeProduto'] ?></td>
                 <td class="px-4 py-2"><?=$produto['quantidadeProduto']?></td>
                 <td class="px-4 py-2"><?=$produto['valorProduto']?></td>
                 <td class="px-4 py-2"><?=$produto['descricaoProduto']?></td>

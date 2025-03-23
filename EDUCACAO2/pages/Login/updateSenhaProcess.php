@@ -7,7 +7,13 @@
     require_once(__DIR__ . '/../../model/esqueceuSenhaModel.php');
     require_once(__DIR__ . '/../../dao/esqueceuSenhaDAO.php');
          
-    
+    require_once $_SERVER['DOCUMENT_ROOT'] . '/model/conexao.php';
+    require_once $_SERVER['DOCUMENT_ROOT'] . '/model/usuarioModel.php';
+    require_once $_SERVER['DOCUMENT_ROOT'] . '/model/esqueceuSenhaModel.php';
+    require_once $_SERVER['DOCUMENT_ROOT'] . '/DAO/usuarioDao.php';
+    require_once $_SERVER['DOCUMENT_ROOT'] . '/DAO/esqueceuSenhaDAO.php';
+
+
     var_dump($_POST);
     session_start();
     $idUsuario = $_SESSION['idUsuario'] ;

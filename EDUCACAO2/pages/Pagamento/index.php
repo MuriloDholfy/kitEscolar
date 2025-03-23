@@ -3,6 +3,10 @@ require_once(__DIR__.'/../../DAO/produtoDAO.php');
 require_once(__DIR__.'/../../DAO/usuarioDAO.php');
 require_once(__DIR__.'/../../DAO/tipoPagamentoDAO.php');
 
+require_once $_SERVER['DOCUMENT_ROOT'] . '/DAO/produtoDAO.php';
+require_once $_SERVER['DOCUMENT_ROOT'] . '/DAO/usuarioDAO.php';
+require_once $_SERVER['DOCUMENT_ROOT'] . '/DAO/tipoPagamentoDAO.php';
+
 if (!isset($_SESSION)) {
     session_start();
 }
@@ -137,17 +141,17 @@ $tipos = TipoPagamentoDAO::showAll();
                          
                         <div id="duepayForm" class="payment-method-form" class="payment-method-form">
                             <div class="mb-3">
-                                <label for="duepayEmail" class="form-label">E-mail DuePay</label>
-                                <input type="email" name="email" class="form-control" id="duepayEmail" placeholder="Seu e-mail DuePay" required>
+                                <label for="duepayEmail" class="form-label">Número do Cartão DuePay</label>
+                                <input type="text" name="email" class="form-control" id="duepayEmail" maxlength="40" placeholder="Seu número do cartao DuePay" required>
                             </div>
                             <div class="mb-3">
-                                <label for="duepayTelefone" class="form-label">Telefone Duepay(Contato)</label>
+                                <label for="duepayTelefone" class="form-label">Telefone(Contato)</label>
                                 <input type="text" name="telefone" class="form-control"  id="telefone" placeholder="DDDXXXXXXXX" maxlength="11" >
                                 
                             </div>
                             <div class="mb-3">
-                                <label for="duepayPassword" class="form-label">Senha DuePay</label>
-                                <input type="password" name="senha" class="form-control" id="duepayPassword" required>
+                                <label for="duepayPassword" class="form-label">Cpf do Titular do beneficio</label>
+                                <input type="text" name="senha" class="form-control" id="duepayPassword" maxlength="11" placeholder="Seu cpf do titular DuePay" required>
                             </div>
                         </div>
 

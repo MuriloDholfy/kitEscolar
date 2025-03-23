@@ -1,9 +1,10 @@
 <?php
-require_once(__DIR__ . '/../../dao/pagamentoDAO.php');
-require_once(__DIR__ . '/../../dao/comandaDAO.php');
-require_once(__DIR__ . '/../../model/pagamentoModel.php');
-require_once(__DIR__ . '/../../model/comandaModel.php');
 
+
+require_once $_SERVER['DOCUMENT_ROOT'] . '/DAO/pagamentoDAO.php';
+require_once $_SERVER['DOCUMENT_ROOT'] . '/DAO/comandaDAO.php';
+require_once $_SERVER['DOCUMENT_ROOT'] . '/model/pagamentoModel.php';
+require_once $_SERVER['DOCUMENT_ROOT'] . '/model/comandaModel.php';
 
     var_dump($_POST);
     if (!empty($_POST)) {

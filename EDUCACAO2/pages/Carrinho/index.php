@@ -8,6 +8,7 @@
         header("Location: ../Login/index.php");
     }
 require_once(__DIR__.'/../../DAO/produtoDAO.php');
+require_once $_SERVER['DOCUMENT_ROOT'] . '/DAO/ProdutoDAO.php';
 $usuarioId = $_SESSION['authUsuario']['id']; 
 $produtosPendentes = ProdutoDAO::showProdutosPendentes($usuarioId);
 $totalItens = 0;
@@ -17,7 +18,7 @@ foreach ($produtosPendentes as $produto) {
     $totalItens += $produto['quantidade'];
     $totalPreco += $produto['precoTotal'] * $produto['quantidade'];
 }
-$frete = 20;
+$frete = 0;
 
 ?>
 <!DOCTYPE html>

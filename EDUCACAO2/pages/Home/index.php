@@ -14,7 +14,9 @@
     
     
 
-    require_once (__DIR__.'../../../DAO/ProdutoDAO.php'); 
+    require_once (__DIR__.'../../../DAO/produtoDAO.php'); 
+    require_once $_SERVER['DOCUMENT_ROOT'] . '/DAO/ProdutoDAO.php';
+    
     $produtos = ProdutoDAO::showAll();
    ?>
 

@@ -1,5 +1,6 @@
 <?php
 require_once (__DIR__.'/../../dao/usuarioDao.php');
+require_once $_SERVER['DOCUMENT_ROOT'] . '/DAO/usuarioDao.php';
 
 $usuario = usuarioDao::checkCredentials($_POST['emailUsuario'], $_POST['senhaUsuario']);
 

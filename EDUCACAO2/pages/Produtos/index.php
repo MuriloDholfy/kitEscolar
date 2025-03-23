@@ -1,10 +1,12 @@
 <?php
+    require_once $_SERVER['DOCUMENT_ROOT'] . '/DAO/produtoDAO.php';
+    require_once (__DIR__.'../../../DAO/ProdutoDAO.php'); 
       if (!isset($_SESSION)) {
         session_start();
     }
     
     $authUsuario = $_SESSION["authUsuario"] ?? null;
-    require_once (__DIR__.'../../../DAO/ProdutoDAO.php'); 
+
     $produtos = ProdutoDAO::showAll();
    ?>
 

@@ -5,7 +5,11 @@ require_once(__DIR__ . '/../../model/comandaProdutoModel.php');
 require_once(__DIR__ . '/../../dao/comandaDAO.php');
 require_once(__DIR__ . '/../../dao/comandaProdutoDAO.php');
 
-
+require_once $_SERVER['DOCUMENT_ROOT'] . '/model/conexao.php';
+require_once $_SERVER['DOCUMENT_ROOT'] . '/model/comandaModel.php';
+require_once $_SERVER['DOCUMENT_ROOT'] . '/model/comandaProdutoModel.php';
+require_once $_SERVER['DOCUMENT_ROOT'] . '/DAO/comandaDAO.php';
+require_once $_SERVER['DOCUMENT_ROOT'] . '/DAO/comandaProdutoDAO.php';
 
 $comanda = new ComandaModel();
 $comandaProduto = new ComandaProdutoModel();

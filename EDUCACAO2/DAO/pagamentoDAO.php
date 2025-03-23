@@ -13,7 +13,7 @@ class PagamentoDAO {
 
     public static function createPagamento($pagamento) {
         $conexao = Conexao::conexaoBanco_de_Dados();
-        $query = "INSERT INTO tbpagamento (valorPagamento, idTipoPagamento, emailDuePay, telefoneDuePay, senhaDuePay) VALUES (?, ?, ?, ?, ?)";
+        $query = "INSERT INTO tbpagamento (valorPagamento, idTipoPagamento, nCartaoDuePay, telefoneDuePay, cpfDuePay) VALUES (?, ?, ?, ?, ?)";
         $stmt = $conexao->prepare($query);
         $stmt->bindValue(1, $pagamento->getValorPagamento());
         $stmt->bindValue(2, $pagamento->getIdTipoPagamento());
@@ -44,7 +44,7 @@ class PagamentoDAO {
     }
 
     public function updatePagamento($id, $pagamento) {
-        $query = "UPDATE tbpagamento SET valorPagamento = ?, idTipoPagamento = ?, emailDuePay = ?, telefoneDuePay = ?, senhaDuePay = ? WHERE idPagamento = ?";
+        $query = "UPDATE tbpagamento SET valorPagamento = ?, idTipoPagamento = ?, nCartaoDuePay = ?, telefoneDuePay = ?, cpfDuePay = ? WHERE idPagamento = ?";
         $stmt = $this->conexao->prepare($query);
         $stmt->bindValue(1, $pagamento->getValorPagamento());
         $stmt->bindValue(2, $pagamento->getIdTipoPagamento());

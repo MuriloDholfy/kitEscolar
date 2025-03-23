@@ -1,4 +1,5 @@
 <?php
+session_start();
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 
@@ -8,30 +9,39 @@ require_once(__DIR__ . '/../../model/emailModel.php');
 require_once(__DIR__ . '/../../dao/emailDao.php');
 require(__DIR__ . '/../../lib/vendor/autoload.php');
 require_once(__DIR__.'/../../model/conexao.php');
+
+require_once $_SERVER['DOCUMENT_ROOT'] . '/model/conexao.php';
+require_once $_SERVER['DOCUMENT_ROOT'] . '/model/usuarioModel.php';
+require_once $_SERVER['DOCUMENT_ROOT'] . '/model/emailModel.php';
+require_once $_SERVER['DOCUMENT_ROOT'] . '/DAO/usuarioDao.php';
+require_once $_SERVER['DOCUMENT_ROOT'] . '/DAO/emailDAO.php';
+require_once $_SERVER['DOCUMENT_ROOT'] . 'lib/vendor/autoload.php';
+
 header('Content-Type: application/json');
 
 $usuario = new UsuarioModel();
 $mail = new PHPMailer(true);
 $verificacaoEmailModel = new VerificacaoEmailModel();
 
-try {
     switch ($_POST["acao"]) {
         case 'ATUALIZAR':
+           try{
             $usuario->setNomeUsuario($_POST['nomeUsuario']);
             $usuario->setEmailUsuario($_POST['emailUsuario']);
             $usuario->setSenhaUsuario($_POST['senhaUsuario']);
 
             usuarioDao::putUser($_POST["idUsuario"], $usuario);
 
-            $response = [
-                'success' => true,
-                'message' => 'Usuário atualizado com sucesso!'
-            ];
-            echo json_encode($response);
             exit;
+           }catch(PDOException $e){
+            $_SESSION['erro'] = "Erro ao tentar atualizar o usuario";
+            header("Location: Perfil/index.php");
+              exit;
+           }
 
         case 'SALVAR':
          if(!empty($_POST['senhaUsuario']) && $_POST['senhaUsuario'] === $_POST['csenhaUsuario']) {
+           
             $usuario->setNomeUsuario($_POST['nomeUsuario']);
             $usuario->setEmailUsuario($_POST['emailUsuario']);
             $usuario->setSenhaUsuario($_POST['senhaUsuario']);
@@ -67,37 +77,23 @@ try {
                 $mail->Body ='Prezado <b>' . $_POST['nomeUsuario'] . '</b>, use o código <b>' . $novoCodigo . '</b> para verificar sua conta. 
                                Clique aqui: <a href="http://localhost/kitEscolar/EDUCACAO2/pages/Login/modalCodigo.php">Verificar</a>';
                 $mail->AltBody = 'Código: ' . $novoCodigo;
-
                 $mail->send();
-
-                $response = [
-                    'success' => true,
-                    'message' => 'Cadastro realizado com sucesso! Verifique seu e-mail.'
-                ];
-                session_start();
                     $_SESSION['idUsuario'] = $idUsuario;
                     header("Location: modalCodigo.php");
                     exit;
-
-               
-                exit;
             } else {
-                throw new Exception('Erro ao salvar o usuário.');
+                $_SESSION['erro'] = "Erro ao tentar cadastrar o usuario";
+                header("Location: cadastro.php");
+                  exit;
             }
         }
         else{
-            header("Location: cadastro.php?senhasinvalidas");
+            $_SESSION['erro'] = "Senhas não coincidem";
+            header("Location: cadastro.php");
+              exit;
         }
     }
-} catch (Exception $e) {
-    $response = [
-        'success' => false,
-        'message' => 'Erro: ' . $e->getMessage()
-    ];
-    echo json_encode($response);
-    exit;
-}
-    // $mail->Password = 'tlvi sndi gxxv yzse';
+
     
 
   

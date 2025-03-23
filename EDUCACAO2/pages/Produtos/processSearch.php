@@ -1,6 +1,8 @@
 <?php
   require_once (__DIR__.'/../../dao/ProdutoDAO.php');
   require_once (__DIR__.'/../../model/produtoModel.php');
+  require_once $_SERVER['DOCUMENT_ROOT'] . '/DAO/produtoDAO.php';
+  require_once $_SERVER['DOCUMENT_ROOT'] . '/model/produtoModel.php';
 
   $produto = new ProdutoModel();
    

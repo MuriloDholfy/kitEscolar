@@ -1,5 +1,10 @@
 <?php
-       if(!isset($_SESSION)) {
+require_once(__DIR__.'/../../DAO/comandaDAO.php');
+require_once(__DIR__.'/../../DAO/produtoDAO.php');
+require_once $_SERVER['DOCUMENT_ROOT'] . '/DAO/produtoDAO.php';
+require_once $_SERVER['DOCUMENT_ROOT'] . '/DAO/comandaDAO.php';
+
+if(!isset($_SESSION)) {
         session_start();
         $authUsuario = $_SESSION["authUsuario"];
         
@@ -7,8 +12,6 @@
     if(!isset($authUsuario['id'])) {
         header("location: ../Login/index.php");
     }
-require_once(__DIR__.'/../../DAO/comandaDAO.php');
-require_once(__DIR__.'/../../DAO/produtoDAO.php');
 $usuarioId = $_SESSION['authUsuario']['id']; 
 $comandasPendentes = ComandaDAO::showByIdUser($usuarioId);
 $produtosPendentes = ProdutoDAO::showAllProdutos($usuarioId);

@@ -8,7 +8,7 @@
     
     
     if(!isset($authADM['id'])) {
-        header("location:../../area-admin/login/login.php");
+        header("location: ../../area-admin/login/login.php");
     }
     require_once (__DIR__.'../../../DAO/pagamentoDAO.php'); 
     $pagamentos = PagamentoDAO::getAllPagamentos();

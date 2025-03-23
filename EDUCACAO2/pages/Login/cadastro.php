@@ -1,7 +1,6 @@
 <?php
-if (!isset($_SESSION)) {
     session_start();
-}
+
 
 $authUsuario = $_SESSION["authUsuario"] ?? null;
 
@@ -9,6 +8,13 @@ $authUsuario = $_SESSION["authUsuario"] ?? null;
     $idUsuario= $userDao['idUsuario'];
     }else{
       $idUsuario= '';
+    }
+    var_dump($_SESSION);
+    var_dump($_SESSION);
+
+    if (isset($_SESSION['erro'])) {
+        echo "<p style='color: red; font-weight: bold;'>" . $_SESSION['erro'] . "</p>";
+        unset($_SESSION['erro']); // Remove o erro para não exibir novamente
     }
 ?>
 

@@ -19,6 +19,11 @@ if (isset($usuarioDAO[0])) {
 }else{
     $imagem_Usuario = "";
 }
+var_dump($_SESSION);
+if (isset($_SESSION['erro'])) {
+    echo "<p style='color: red; font-weight: bold;'>" . $_SESSION['erro'] . "</p>";
+    unset($_SESSION['erro']); // Remove o erro para não exibir novamente
+}
 
    ?>
 <!DOCTYPE html>
@@ -123,7 +128,7 @@ if (isset($usuarioDAO[0])) {
                         </div> -->
                         <div class="mb-3">
                             <label for="senha" class="form-label">Senha Atual</label>
-                            <input type="password"  name="senhaAtual" class="form-control" id="senha" placeholder="">
+                            <input type="password"  name="senhaAtual" class="form-control" id="senha" placeholder="Necessaria para atualizar os dados" required>
                         </div>
                         <div class="mb-3">
                             <label for="senha"  class="form-label">Nova Senha</label>
